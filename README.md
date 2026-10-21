@@ -1,6 +1,6 @@
 # VAULT × Bambu Lab — Interactive Color & Material Design Studio
 
-An interactive color visualizer, real-time 3D render color-swapper, and filament spool calculator for the **[VAULT by USSA](https://www.ussadesign.com/pages/vault?view=vault-model)** modular 3D-printed storage system, tailored for **Bambu Lab** filaments (`PLA Basic`, `PLA Matte`, and `PETG HF`).
+An interactive color visualizer, real-time 3D render color-swapper, and filament spool calculator for the **[VAULT by USSA](https://www.ussadesign.com/pages/vault?view=vault-model)** modular 3D-printed storage system, tailored for **Bambu Lab** filaments (`PLA Basic`, `PLA Matte`, and `PETG Basic` — 68 official colors).
 
 👉 **[Launch Interactive Studio (GitHub Pages)](https://stari4ek.github.io/vault-color-studio/)**
 
@@ -15,7 +15,7 @@ An interactive color visualizer, real-time 3D render color-swapper, and filament
    * **Stealth + Bright Trays**: `PLA Matte Charcoal (11101)` + `Light Gray (10104)` inner drawer trays (makes black M3/M4 bolts easy to spot) + `Orange (10300)`
    * Plus **Festool / Sys-Green**, **Botanical & Brass**, **Desert Sand & Black**, and **Machinist Blue Slate**.
 2. **Real-Time 3D Render Color-Swapper**:
-   * Recolors all 3 VAULT part zones (**Primary ~65%**, **Secondary ~30%**, **Accent ~5%**) across 6 official diagrams while preserving ambient occlusion shadows and bevel highlights.
+   * Recolors all 3 VAULT part zones (**Primary ~65%**, **Secondary ~30%**, **Accent ~5%**) across 10 official diagrams & studio renders while preserving ambient occlusion shadows and bevel highlights.
    * Includes a **Before / After Split Slider**, **Hold to See Original Promo**, and **Invert Primary / Secondary**.
    * Works both hosted on GitHub Pages and offline via `file://` (double-clicking `index.html`) with zero CORS/canvas tainting.
 3. **Shareable Links, PNG Export & Shopping List Copy**:

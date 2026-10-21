@@ -13,6 +13,7 @@ The raw USSA VAULT STL & PDF archive is kept separate and referenced via the `VA
 vault-color-studio/
 ├── AGENTS.md                  # Project & domain guide for engineers and AI agents
 ├── README.md                  # User-facing setup & publishing documentation
+├── bambulab-filaments.md      # Reference catalog of 68 Bambu Lab filaments (PLA Basic, PLA Matte, PETG Basic)
 ├── LICENSE                    # MIT License for studio code
 ├── .env.example               # Template for VAULT_USSA_DIR configuration
 ├── .env                       # Local untracked config (VAULT_USSA_DIR="/path/to/vault-ussa")
@@ -78,10 +79,10 @@ $VAULT_USSA_DIR/
    * **Material**: `Bambu PLA Basic` or `Bambu PLA Matte` (Matte hides layer lines well for WFH office modules).
 2. **Secondary Zone (~30% of filament weight)**:
    * **Parts**: Inner Drawer Boxes (`S3 Box 1F`), `Top Handle`, `Key Lock`, `Runner Slides`, Sustainer `Hinges`, `Lock Outer/Inner Parts`, `Dividers`, and `Backbone`.
-   * **Material**: Use **PLA Basic** (or **PETG HF**) for `Runner Slides` and `Key Lock` for low friction and wear resistance.
+   * **Material**: Use **PLA Basic** (or **PETG Basic**) for `Runner Slides` and `Key Lock` for low friction and wear resistance.
 3. **Accent Zone (~5% of filament weight)**:
    * **Parts**: `Springs.stl`, `Latch.stl` (bottom stacking latch), `Runner Stoppers` (visible through side slots), `Geared Rails`, Sustainer `Rods`, and internal Gridfinity bins.
-   * **Material**: **MUST use Bambu PLA Basic or PETG HF** for `Springs.stl`, `Latch.stl`, and `Geared Rails`. Avoid `PLA Matte` on compliant springs/latches as it creeps and loses spring tension over time.
+   * **Material**: **MUST use Bambu PLA Basic or PETG Basic** for `Springs.stl`, `Latch.stl`, and `Geared Rails`. Avoid `PLA Matte` on compliant springs/latches as it creeps and loses spring tension over time.
 
 ### Parts Requiring Slicer Supports
 Files explicitly named `(Turn On Supports)` in `$VAULT_USSA_DIR/01. DRAWERS/07. Universal/` and `Facades/`:

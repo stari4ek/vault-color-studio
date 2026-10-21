@@ -838,16 +838,16 @@
         </div>
 
         <div class="filter-tabs" id="materialTabs">
-          <button class="filter-tab active" data-mat="ALL">All Bambu PLA/PETG</button>
-          <button class="filter-tab" data-mat="PLA Basic">PLA Basic</button>
-          <button class="filter-tab" data-mat="PLA Matte">PLA Matte</button>
-          <button class="filter-tab" data-mat="PETG HF">PETG HF</button>
+          <button class="filter-tab active" data-mat="ALL">All (68)</button>
+          <button class="filter-tab" data-mat="PLA Basic">PLA Basic (30)</button>
+          <button class="filter-tab" data-mat="PLA Matte">PLA Matte (25)</button>
+          <button class="filter-tab" data-mat="PETG Basic">PETG Basic (13)</button>
         </div>
 
         <div class="swatches-grid" id="swatchesGrid"></div>
 
         <div class="material-warning" id="matteWarning">
-          <strong>Mechanical Part Tip:</strong> You selected <strong>PLA Matte</strong> for a mechanical zone. While PLA Matte looks incredible on outer shells and facades, USSA recommends <strong>Bambu PLA Basic</strong> or <strong>PETG HF</strong> for <code>Springs.stl</code>, <code>Latch.stl</code>, and <code>Runner Slides</code> so they don't creep or bind.
+          <strong>Mechanical Part Tip:</strong> You selected <strong>PLA Matte</strong> for a mechanical zone. While PLA Matte looks incredible on outer shells and facades, USSA recommends <strong>Bambu PLA Basic</strong> or <strong>PETG Basic</strong> for <code>Springs.stl</code>, <code>Latch.stl</code>, and <code>Runner Slides</code> so they don't creep or bind.
         </div>
       </div>
 
@@ -1003,53 +1003,81 @@
 
   <script src="renders-data.js"></script>
   <script>
-    // Complete Bambu Lab Filament Library (Authentic SKUs & Hex values)
+    // Complete Bambu Lab Filament Library from bambulab-filaments.md (PLA Basic, PLA Matte, PETG Basic)
     const BAMBU_FILAMENTS = [
-      // PLA Basic Neutrals
+      // PLA Basic (30 Colors) — https://eu.store.bambulab.com/products/pla-basic-filament
       { id: '10104', name: 'Light Gray', material: 'PLA Basic', hex: '#D1D3D5', note: 'Official USSA Promo Primary' },
       { id: '10105', name: 'Dark Gray', material: 'PLA Basic', hex: '#545454', note: 'Official USSA Promo Secondary' },
-      { id: '10100', name: 'Jade White', material: 'PLA Basic', hex: '#F4F5F6', note: 'Clean bright white' },
-      { id: '10103', name: 'Gray', material: 'PLA Basic', hex: '#8E9089', note: 'Mid-tone neutral gray' },
+      { id: '10100', name: 'Jade White', material: 'PLA Basic', hex: '#FFFFFF', note: 'Clean bright white' },
+      { id: '10101', name: 'Black', material: 'PLA Basic', hex: '#000000', note: 'Deep jet black' },
       { id: '10102', name: 'Silver', material: 'PLA Basic', hex: '#A6A9AA', note: 'Metallic industrial finish' },
-      { id: '10101', name: 'Black', material: 'PLA Basic', hex: '#212326', note: 'Deep jet black' },
-      { id: '10800', name: 'Brown', material: 'PLA Basic', hex: '#9D432C', note: 'Warm terracotta-brown' },
-      { id: '10801', name: 'Cocoa Brown', material: 'PLA Basic', hex: '#6F5034', note: 'Deep walnut tone' },
-      { id: '10403', name: 'Beige', material: 'PLA Basic', hex: '#F2E6CE', note: 'Warm cream neutral' },
-
-      // PLA Basic Accents & Colors
-      { id: '10300', name: 'Orange', material: 'PLA Basic', hex: '#FF6A13', note: 'Official USSA Promo Accent' },
-      { id: '10301', name: 'Pumpkin Orange', material: 'PLA Basic', hex: '#FF8C19', note: 'Warm amber orange' },
-      { id: '10400', name: 'Yellow', material: 'PLA Basic', hex: '#F4EE2A', note: 'High-vis DeWalt/Stanley yellow' },
-      { id: '10402', name: 'Sunflower Yellow', material: 'PLA Basic', hex: '#FEC600', note: 'Warm golden yellow' },
-      { id: '10401', name: 'Gold', material: 'PLA Basic', hex: '#E4BD68', note: 'Brushed brass/gold accent' },
+      { id: '10103', name: 'Gray', material: 'PLA Basic', hex: '#8E9089', note: 'Mid-tone neutral gray' },
       { id: '10200', name: 'Red', material: 'PLA Basic', hex: '#C12E1F', note: 'Milwaukee/Packout red' },
+      { id: '10201', name: 'Beige', material: 'PLA Basic', hex: '#F7E6DE', note: 'Warm cream neutral' },
+      { id: '10202', name: 'Magenta', material: 'PLA Basic', hex: '#EC008C', note: 'Vibrant magenta accent' },
+      { id: '10203', name: 'Pink', material: 'PLA Basic', hex: '#F55A74', note: 'Bright coral pink' },
+      { id: '10204', name: 'Hot Pink', material: 'PLA Basic', hex: '#F5547C', note: 'Saturated hot pink' },
+      { id: '10205', name: 'Maroon Red', material: 'PLA Basic', hex: '#9D2235', note: 'Deep crimson maroon' },
+      { id: '10300', name: 'Orange', material: 'PLA Basic', hex: '#FF6A13', note: 'Official USSA Promo Accent' },
+      { id: '10301', name: 'Pumpkin Orange', material: 'PLA Basic', hex: '#FF9016', note: 'Warm amber orange' },
+      { id: '10400', name: 'Yellow', material: 'PLA Basic', hex: '#F4EE2A', note: 'High-vis DeWalt/Stanley yellow' },
+      { id: '10401', name: 'Gold', material: 'PLA Basic', hex: '#E4BD68', note: 'Brushed brass/gold accent' },
+      { id: '10402', name: 'Sunflower Yellow', material: 'PLA Basic', hex: '#FEC600', note: 'Warm golden yellow' },
       { id: '10501', name: 'Bambu Green', material: 'PLA Basic', hex: '#00AE42', note: 'Festool/Bambu vibrant green' },
       { id: '10502', name: 'Mistletoe Green', material: 'PLA Basic', hex: '#3F8E43', note: 'Deep forest workshop green' },
-      { id: '10601', name: 'Cobalt Blue', material: 'PLA Basic', hex: '#0056B8', note: 'Classic machinist blue' },
-      { id: '10603', name: 'Blue Grey', material: 'PLA Basic', hex: '#5B6579', note: 'Steel slate blue-grey' },
-      { id: '10604', name: 'Cyan', material: 'PLA Basic', hex: '#0086D6', note: 'Makita/electric blue' },
+      { id: '10503', name: 'Bright Green', material: 'PLA Basic', hex: '#BECF00', note: 'High-vis lime green' },
+      { id: '10601', name: 'Blue', material: 'PLA Basic', hex: '#0A2989', note: 'Deep royal navy blue' },
+      { id: '10602', name: 'Blue Grey', material: 'PLA Basic', hex: '#5B6579', note: 'Steel slate blue-grey' },
+      { id: '10603', name: 'Cyan', material: 'PLA Basic', hex: '#0086D6', note: 'Makita/electric cyan blue' },
+      { id: '10604', name: 'Cobalt Blue', material: 'PLA Basic', hex: '#0056B8', note: 'Classic machinist cobalt blue' },
+      { id: '10605', name: 'Turquoise', material: 'PLA Basic', hex: '#00B1B7', note: 'Bright teal turquoise' },
+      { id: '10700', name: 'Purple', material: 'PLA Basic', hex: '#5E43B7', note: 'Rich royal purple' },
+      { id: '10701', name: 'Indigo Purple', material: 'PLA Basic', hex: '#482960', note: 'Deep plum indigo' },
+      { id: '10800', name: 'Brown', material: 'PLA Basic', hex: '#9D432C', note: 'Warm terracotta-brown' },
+      { id: '10801', name: 'Bronze', material: 'PLA Basic', hex: '#847D48', note: 'Aged metallic olive-bronze' },
+      { id: '10802', name: 'Cocoa Brown', material: 'PLA Basic', hex: '#6F5034', note: 'Deep walnut tone' },
 
-      // PLA Matte (Great for WFH Office Shells!)
-      { id: '11100', name: 'Ivory White', material: 'PLA Matte', hex: '#F0EFEA', note: 'Soft architectural white' },
-      { id: '11103', name: 'Bone White', material: 'PLA Matte', hex: '#DFD8C8', note: 'Warm vintage computer beige' },
-      { id: '11401', name: 'Desert Tan', material: 'PLA Matte', hex: '#E2D1B5', note: 'Warm sand / Noctua light' },
+      // PLA Matte (25 Colors) — https://eu.store.bambulab.com/products/pla-matte
+      { id: '11100', name: 'Ivory White', material: 'PLA Matte', hex: '#FFFFFF', note: 'Soft architectural matte white' },
+      { id: '11101', name: 'Charcoal', material: 'PLA Matte', hex: '#000000', note: 'Ultra-clean stealth matte black' },
       { id: '11102', name: 'Ash Gray', material: 'PLA Matte', hex: '#9B9EA0', note: 'Concrete studio matte gray' },
-      { id: '11104', name: 'Nardo Gray', material: 'PLA Matte', hex: '#75787B', note: 'Automotive medium slate' },
-      { id: '11101', name: 'Charcoal', material: 'PLA Matte', hex: '#2B2D30', note: 'Ultra-clean stealth matte black' },
+      { id: '11103', name: 'Bone White', material: 'PLA Matte', hex: '#CBC6B8', note: 'Warm stone / vintage beige' },
+      { id: '11104', name: 'Nardo Gray', material: 'PLA Matte', hex: '#757575', note: 'Automotive medium slate' },
+      { id: '11200', name: 'Scarlet Red', material: 'PLA Matte', hex: '#DE4343', note: 'Soft crimson matte red' },
+      { id: '11201', name: 'Sakura Pink', material: 'PLA Matte', hex: '#E8AFCF', note: 'Soft pastel blossom pink' },
+      { id: '11202', name: 'Dark Red', material: 'PLA Matte', hex: '#BB3D43', note: 'Muted brick red' },
       { id: '11203', name: 'Terracotta', material: 'PLA Matte', hex: '#B15533', note: 'Earthy warm clay orange' },
+      { id: '11204', name: 'Plum', material: 'PLA Matte', hex: '#950051', note: 'Deep berry plum' },
       { id: '11300', name: 'Mandarin Orange', material: 'PLA Matte', hex: '#F99963', note: 'Soft pastel studio orange' },
       { id: '11400', name: 'Lemon Yellow', material: 'PLA Matte', hex: '#F7D959', note: 'Muted studio yellow' },
+      { id: '11401', name: 'Desert Tan', material: 'PLA Matte', hex: '#E8DBB7', note: 'Warm sand / Noctua light' },
+      { id: '11500', name: 'Grass Green', material: 'PLA Matte', hex: '#61C680', note: 'Fresh botanical mint green' },
       { id: '11501', name: 'Dark Green', material: 'PLA Matte', hex: '#68724D', note: 'Olive / botanical sage green' },
+      { id: '11502', name: 'Apple Green', material: 'PLA Matte', hex: '#C2E189', note: 'Soft pastel pistachio green' },
       { id: '11600', name: 'Marine Blue', material: 'PLA Matte', hex: '#0078BF', note: 'Deep matte ocean blue' },
-      { id: '11200', name: 'Scarlet Red', material: 'PLA Matte', hex: '#DE4343', note: 'Soft crimson red' },
+      { id: '11601', name: 'Ice Blue', material: 'PLA Matte', hex: '#A3D8E1', note: 'Soft glacial pastel blue' },
+      { id: '11602', name: 'Dark Blue', material: 'PLA Matte', hex: '#042F56', note: 'Deep midnight navy matte' },
+      { id: '11603', name: 'Sky Blue', material: 'PLA Matte', hex: '#56B7E6', note: 'Clear cerulean sky blue' },
+      { id: '11700', name: 'Lilac Purple', material: 'PLA Matte', hex: '#AE96D4', note: 'Soft lavender purple' },
+      { id: '11800', name: 'Latte Brown', material: 'PLA Matte', hex: '#D3B7A7', note: 'Warm café au lait taupe' },
+      { id: '11801', name: 'Dark Brown', material: 'PLA Matte', hex: '#7D6556', note: 'Muted espresso brown' },
+      { id: '11802', name: 'Dark Chocolate', material: 'PLA Matte', hex: '#4D3324', note: 'Deep roasted cocoa brown' },
+      { id: '11803', name: 'Caramel', material: 'PLA Matte', hex: '#AE835B', note: 'Warm saddle leather tan' },
 
-      // PETG HF (Heavy-duty mechanical & garage option)
-      { id: '33101', name: 'Gray (PETG HF)', material: 'PETG HF', hex: '#ADB1B2', note: 'Tough mechanical gray' },
-      { id: '33102', name: 'Dark Gray (PETG HF)', material: 'PETG HF', hex: '#515559', note: 'High-strength dark gray' },
-      { id: '33100', name: 'Black (PETG HF)', material: 'PETG HF', hex: '#242629', note: 'Heavy duty black' },
-      { id: '33300', name: 'Orange (PETG HF)', material: 'PETG HF', hex: '#F75708', note: 'Extra snappy for springs & latches' },
-      { id: '33400', name: 'Yellow (PETG HF)', material: 'PETG HF', hex: '#FFD00B', note: 'Tough industrial yellow' },
-      { id: '33500', name: 'Green (PETG HF)', material: 'PETG HF', hex: '#00A53C', note: 'Tough systainer green' }
+      // PETG Basic (13 Colors) — https://eu.store.bambulab.com/products/petg-basic
+      { id: '30105', name: 'Black (PETG)', material: 'PETG Basic', hex: '#000000', note: 'Heavy-duty mechanical black' },
+      { id: '30106', name: 'White (PETG)', material: 'PETG Basic', hex: '#FFFFFF', note: 'High-strength clean white' },
+      { id: '30107', name: 'Gray (PETG)', material: 'PETG Basic', hex: '#7F7E83', note: 'Tough mechanical mid-gray' },
+      { id: '30108', name: 'Misty Blue (PETG)', material: 'PETG Basic', hex: '#688197', note: 'Industrial steel misty blue' },
+      { id: '30201', name: 'Red (PETG)', material: 'PETG Basic', hex: '#D6001C', note: 'High-strength tool red' },
+      { id: '30301', name: 'Orange (PETG)', material: 'PETG Basic', hex: '#FF671F', note: 'Extra snappy for springs & latches' },
+      { id: '30402', name: 'Yellow (PETG)', material: 'PETG Basic', hex: '#FCE300', note: 'Tough industrial yellow' },
+      { id: '30403', name: 'Dark Beige (PETG)', material: 'PETG Basic', hex: '#DBC8B6', note: 'Warm utility beige' },
+      { id: '30502', name: 'Green (PETG)', material: 'PETG Basic', hex: '#009639', note: 'Tough systainer green' },
+      { id: '30503', name: 'Pine Green (PETG)', material: 'PETG Basic', hex: '#034638', note: 'Deep British racing / pine green' },
+      { id: '30603', name: 'Reflex Blue (PETG)', material: 'PETG Basic', hex: '#001489', note: 'Deep industrial cobalt blue' },
+      { id: '30604', name: 'Navy Blue (PETG)', material: 'PETG Basic', hex: '#0086D6', note: 'Bright workshop blue' },
+      { id: '30800', name: 'Dark Brown (PETG)', material: 'PETG Basic', hex: '#4F2C1D', note: 'Dark utility brown' }
     ];
 
     const PRESET_PROSPECTS = [
@@ -1121,9 +1149,9 @@
         name: '08. Machinist Blue Slate',
         tag: 'Closet Hardware',
         desc: 'Blue Grey shells with Black inner boxes and Cobalt Blue springs & bins.',
-        primary: '10603',
+        primary: '10602',
         secondary: '10101',
-        accent: '10601'
+        accent: '10604'
       }
     ];
 
@@ -1611,15 +1639,17 @@
 
     // Real-Time Physically-Plausible 3D Render Recoloring Shader
     function shadeChannel(lum, baseLum, targetChannel) {
+      // Clamp diffuse albedo so pure #000000 and #FFFFFF filaments retain 3D shadows & highlights
+      const c = Math.max(30, Math.min(242, targetChannel));
       // Preserves deep ambient occlusion shadows and specular bevel highlights
       if (lum <= baseLum) {
         const ratio = lum / baseLum;
         // Slight gamma curve keeps contact shadows crisp
-        return targetChannel * Math.pow(ratio, 0.92);
+        return c * Math.pow(ratio, 0.92);
       } else {
         const highlightRatio = (lum - baseLum) / (255 - baseLum);
         // Specular/ambient lift toward white without blowing out saturated colors
-        return targetChannel + (255 - targetChannel) * Math.pow(highlightRatio, 1.15) * 0.78;
+        return c + (255 - c) * Math.pow(highlightRatio, 1.15) * 0.78;
       }
     }
 

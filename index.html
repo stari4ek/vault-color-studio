@@ -779,7 +779,7 @@
         </div>
         <div class="filter-tabs" id="presetTabs" style="margin-bottom: 0;">
           <button class="filter-tab active" data-preset-cat="ALL">All Presets (14)</button>
-          <button class="filter-tab" data-preset-cat="video">🎬 Promo Video (6)</button>
+          <button class="filter-tab" data-preset-cat="video">🎬 Promo Video (7)</button>
           <button class="filter-tab" data-preset-cat="studio">🏠 Studio &amp; Workshop (8)</button>
         </div>
       </div>
@@ -1088,10 +1088,10 @@
     const PRESET_PROSPECTS = [
       {
         id: 'ussa-promo',
-        category: 'studio',
+        category: 'both',
         name: '01. Official USSA Promo',
-        tag: 'Recommended · Closet + WFH',
-        desc: 'Exact manual spec: Light Gray 10104 shell, Dark Gray inner box, Orange springs & stoppers.',
+        tag: '🎬 Promo Video · Official Spec',
+        desc: 'Exact manual & video spec: Light Gray 10104 shell, Dark Gray inner box, Orange springs & stoppers.',
         primary: '10104',
         secondary: '10105',
         accent: '10300'
@@ -1579,7 +1579,7 @@
     function renderPresets() {
       const grid = document.getElementById('presetsGrid');
       const filteredPresets = PRESET_PROSPECTS.filter(pr =>
-        currentState.presetCategory === 'ALL' || pr.category === currentState.presetCategory
+        currentState.presetCategory === 'ALL' || pr.category === 'both' || pr.category === currentState.presetCategory
       );
       grid.innerHTML = filteredPresets.map(preset => {
         const p = getFilament(preset.primary);

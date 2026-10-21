@@ -8,8 +8,9 @@ An interactive color visualizer, real-time 3D render color-swapper, and filament
 
 ## Features
 
-1. **8 Curated Design Prospects**:
+1. **14 Curated Design Prospects (including 6 Promo Video Colorways)**:
    * **Official USSA Promo**: `PLA Basic Light Gray (10104)` + `Dark Gray (10105)` + `Orange (10300)`
+   * **6 Promo Video Colorways**: **Apple Green & Orange** (`11502` + `10100` + `10300`), **Sakura Pink & White** (`11201`), **Indigo Purple & White** (`10701`), **Olive Sage & White** (`11501`), **Slate Navy & White** (`10602`), and **Studio Gray & Dark** (`11102`)
    * **Warm Studio / WFH Desk**: `PLA Matte Bone White (11103)` + `Charcoal (11101)` + `Terracotta (11203)`
    * **Concrete & Amber**: `PLA Matte Ash Gray (11102)` + `Charcoal (11101)` + `Sunflower Yellow (10402)`
    * **Stealth + Bright Trays**: `PLA Matte Charcoal (11101)` + `Light Gray (10104)` inner drawer trays (makes black M3/M4 bolts easy to spot) + `Orange (10300)`

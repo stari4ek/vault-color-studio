@@ -775,7 +775,12 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">1. Curated Design Prospects (Click to Preview on Renders)</h2>
-          <p class="section-subtitle">Start with the official USSA promo palette (`10104` Light Gray) or explore palettes tailored for a closet + WFH office setup.</p>
+          <p class="section-subtitle">Start with the official USSA promo palette, the 6 colorways from the USSA promo video, or curated studio &amp; workshop setups.</p>
+        </div>
+        <div class="filter-tabs" id="presetTabs" style="margin-bottom: 0;">
+          <button class="filter-tab active" data-preset-cat="ALL">All Presets (14)</button>
+          <button class="filter-tab" data-preset-cat="video">🎬 Promo Video (6)</button>
+          <button class="filter-tab" data-preset-cat="studio">🏠 Studio &amp; Workshop (8)</button>
         </div>
       </div>
       <div class="presets-grid" id="presetsGrid"></div>
@@ -1083,6 +1088,7 @@
     const PRESET_PROSPECTS = [
       {
         id: 'ussa-promo',
+        category: 'studio',
         name: '01. Official USSA Promo',
         tag: 'Recommended · Closet + WFH',
         desc: 'Exact manual spec: Light Gray 10104 shell, Dark Gray inner box, Orange springs & stoppers.',
@@ -1091,8 +1097,69 @@
         accent: '10300'
       },
       {
+        id: 'video-apple',
+        category: 'video',
+        name: '02. Apple Green & Orange',
+        tag: '🎬 Promo Video · Foreground',
+        desc: 'Foreground video stack: Pistachio Apple Green matte shells, White handle, and Orange bottom latches & stoppers.',
+        primary: '11502',
+        secondary: '10100',
+        accent: '10300'
+      },
+      {
+        id: 'video-sakura',
+        category: 'video',
+        name: '03. Sakura Pink & White',
+        tag: '🎬 Promo Video · Stack 1',
+        desc: 'Leftmost video stack: Pastel Sakura Pink matte shells & facades paired with crisp White handle & latches.',
+        primary: '11201',
+        secondary: '10100',
+        accent: '10100'
+      },
+      {
+        id: 'video-indigo',
+        category: 'video',
+        name: '04. Indigo Purple & White',
+        tag: '🎬 Promo Video · Stack 2',
+        desc: 'Second video stack: Deep Indigo Purple shells paired with a contrasting White top handle & Dark Gray lock.',
+        primary: '10701',
+        secondary: '10100',
+        accent: '10105'
+      },
+      {
+        id: 'video-olive',
+        category: 'video',
+        name: '05. Olive Sage & White',
+        tag: '🎬 Promo Video · Stack 3',
+        desc: 'Third video stack: Tactical olive-sage Matte Dark Green shells with a clean White handle & Dark Gray lock.',
+        primary: '11501',
+        secondary: '10100',
+        accent: '10105'
+      },
+      {
+        id: 'video-navy',
+        category: 'video',
+        name: '06. Slate Navy & White',
+        tag: '🎬 Promo Video · Stack 4',
+        desc: 'Tallest video stack: Steel Blue Grey shells with a bright White top handle and Dark Gray lock.',
+        primary: '10602',
+        secondary: '10100',
+        accent: '10105'
+      },
+      {
+        id: 'video-ash',
+        category: 'video',
+        name: '07. Studio Gray & Dark',
+        tag: '🎬 Promo Video · Stack 5',
+        desc: 'Rightmost video stack: Matte Ash Gray exterior with Dark Gray handle and White lock trim.',
+        primary: '11102',
+        secondary: '10105',
+        accent: '10100'
+      },
+      {
         id: 'nord-office',
-        name: '02. Warm Studio / WFH Desk',
+        category: 'studio',
+        name: '08. Warm Studio / WFH Desk',
         tag: 'Best for Home Office',
         desc: 'Bone White matte exterior with Charcoal trays and warm Terracotta accents.',
         primary: '11103',
@@ -1101,7 +1168,8 @@
       },
       {
         id: 'ash-architect',
-        name: '03. Concrete & Amber',
+        category: 'studio',
+        name: '09. Concrete & Amber',
         tag: 'Industrial Minimal',
         desc: 'Matte Ash Gray shells hide layer lines effortlessly, paired with Charcoal and Sunflower Yellow.',
         primary: '11102',
@@ -1110,7 +1178,8 @@
       },
       {
         id: 'stealth-highvis',
-        name: '04. Stealth + Bright Trays',
+        category: 'studio',
+        name: '10. Stealth + Bright Trays',
         tag: 'Easy Bolt Spotting',
         desc: 'Charcoal exterior with Light Gray inner drawers so black M3/M4 bolts are easy to see inside!',
         primary: '11101',
@@ -1119,7 +1188,8 @@
       },
       {
         id: 'systainer-pro',
-        name: '05. Festool / Sys-Green',
+        category: 'studio',
+        name: '11. Festool / Sys-Green',
         tag: 'Classic Workshop',
         desc: 'Light Gray 10104 shells with Dark Gray hardware and Bambu Green latches & bins.',
         primary: '10104',
@@ -1128,7 +1198,8 @@
       },
       {
         id: 'botanical-desk',
-        name: '06. Botanical & Brass',
+        category: 'studio',
+        name: '12. Botanical & Brass',
         tag: 'Furniture Vibe',
         desc: 'Ivory White shells with Dark Green inner boxes and Gold mechanical accents.',
         primary: '11100',
@@ -1137,7 +1208,8 @@
       },
       {
         id: 'desert-tactile',
-        name: '07. Desert Sand & Black',
+        category: 'studio',
+        name: '13. Desert Sand & Black',
         tag: 'Warm Utility',
         desc: 'Desert Tan matte shells with Black hardware and Orange mechanical stoppers.',
         primary: '11401',
@@ -1146,7 +1218,8 @@
       },
       {
         id: 'machinist-blue',
-        name: '08. Machinist Blue Slate',
+        category: 'studio',
+        name: '14. Machinist Blue Slate',
         tag: 'Closet Hardware',
         desc: 'Blue Grey shells with Black inner boxes and Cobalt Blue springs & bins.',
         primary: '10602',
@@ -1159,6 +1232,7 @@
     let currentState = {
       activeZone: 'primary',
       materialFilter: 'ALL',
+      presetCategory: 'ALL',
       primary: '10104',
       secondary: '10105',
       accent: '10300',
@@ -1370,11 +1444,20 @@
         });
       });
 
+      // Preset category filter tabs
+      document.querySelectorAll('#presetTabs .filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          currentState.presetCategory = tab.dataset.presetCat;
+          document.querySelectorAll('#presetTabs .filter-tab').forEach(t => t.classList.toggle('active', t === tab));
+          renderPresets();
+        });
+      });
+
       // Material filter tabs
-      document.querySelectorAll('.filter-tab').forEach(tab => {
+      document.querySelectorAll('#materialTabs .filter-tab').forEach(tab => {
         tab.addEventListener('click', () => {
           currentState.materialFilter = tab.dataset.mat;
-          document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t === tab));
+          document.querySelectorAll('#materialTabs .filter-tab').forEach(t => t.classList.toggle('active', t === tab));
           renderSwatches();
         });
       });
@@ -1495,7 +1578,10 @@
 
     function renderPresets() {
       const grid = document.getElementById('presetsGrid');
-      grid.innerHTML = PRESET_PROSPECTS.map(preset => {
+      const filteredPresets = PRESET_PROSPECTS.filter(pr =>
+        currentState.presetCategory === 'ALL' || pr.category === currentState.presetCategory
+      );
+      grid.innerHTML = filteredPresets.map(preset => {
         const p = getFilament(preset.primary);
         const s = getFilament(preset.secondary);
         const a = getFilament(preset.accent);

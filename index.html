@@ -1688,29 +1688,29 @@
           // Perceived luminance of source pixel
           const lum = 0.299 * r + 0.587 * g + 0.114 * b;
 
-          let nr = r, ng = g, nb = b;
+          const clampedTotal = Math.min(1.0, totalW);
+          const bgWeight = 1.0 - clampedTotal;
+          let nr = r * bgWeight;
+          let ng = g * bgWeight;
+          let nb = b * bgWeight;
 
-          if (wp >= ws && wp >= wa) {
-            const pr = shadeChannel(lum, basePri, priRgb[0]);
-            const pg = shadeChannel(lum, basePri, priRgb[1]);
-            const pb = shadeChannel(lum, basePri, priRgb[2]);
-            nr = r * (1 - wp) + pr * wp;
-            ng = g * (1 - wp) + pg * wp;
-            nb = b * (1 - wp) + pb * wp;
-          } else if (ws >= wp && ws >= wa) {
-            const sr = shadeChannel(lum, baseSec, secRgb[0]);
-            const sg = shadeChannel(lum, baseSec, secRgb[1]);
-            const sb = shadeChannel(lum, baseSec, secRgb[2]);
-            nr = r * (1 - ws) + sr * ws;
-            ng = g * (1 - ws) + sg * ws;
-            nb = b * (1 - ws) + sb * ws;
-          } else {
-            const ar = shadeChannel(lum, baseAcc, accRgb[0]);
-            const ag = shadeChannel(lum, baseAcc, accRgb[1]);
-            const ab = shadeChannel(lum, baseAcc, accRgb[2]);
-            nr = r * (1 - wa) + ar * wa;
-            ng = g * (1 - wa) + ag * wa;
-            nb = b * (1 - wa) + ab * wa;
+          if (wp > 0.005) {
+            const w = wp * (clampedTotal / totalW);
+            nr += shadeChannel(lum, basePri, priRgb[0]) * w;
+            ng += shadeChannel(lum, basePri, priRgb[1]) * w;
+            nb += shadeChannel(lum, basePri, priRgb[2]) * w;
+          }
+          if (ws > 0.005) {
+            const w = ws * (clampedTotal / totalW);
+            nr += shadeChannel(lum, baseSec, secRgb[0]) * w;
+            ng += shadeChannel(lum, baseSec, secRgb[1]) * w;
+            nb += shadeChannel(lum, baseSec, secRgb[2]) * w;
+          }
+          if (wa > 0.005) {
+            const w = wa * (clampedTotal / totalW);
+            nr += shadeChannel(lum, baseAcc, accRgb[0]) * w;
+            ng += shadeChannel(lum, baseAcc, accRgb[1]) * w;
+            nb += shadeChannel(lum, baseAcc, accRgb[2]) * w;
           }
 
           out[i] = nr;

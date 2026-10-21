@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAULT × Bambu Lab — Interactive Color &amp; Material Design Studio</title>
+  <meta name="description" content="Interactive 3D render color-swapper, preset palettes, and Bambu Lab filament spool calculator for the USSA VAULT modular storage system." />
+  <meta property="og:title" content="VAULT × Bambu Lab — Interactive Color &amp; Material Design Studio" />
+  <meta property="og:description" content="Compare Bambu Lab PLA Basic, PLA Matte, and PETG HF color combinations directly on USSA VAULT 3D renders." />
+  <meta property="og:type" content="website" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DS49SPSNG2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DS49SPSNG2');
+  </script>
+  <style>
+    :root {
+      color-scheme: dark light;
+      --bg: #0f1115;
+      --bg-elev: #171a21;
+      --bg-card: #1e222b;
+      --bg-subtle: #252a35;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border: #2e3442;
+      --accent-ui: #ff6a13;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.38);
+      --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      --mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f5f7;
+      --bg-elev: #ffffff;
+      --bg-card: #ffffff;
+      --bg-subtle: #ebedf0;
+      --text: #141619;
+      --text-muted: #5f6672;
+      --border: #d8dce3;
+      --shadow: 0 10px 28px rgba(15, 20, 30, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Header */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: color-mix(in oklab, var(--bg-elev) 88%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-badge {
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .brand-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .brand-sub {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--text-muted);
+      background: var(--bg-subtle);
+    }
+
+    .btn-primary {
+      background: var(--accent-ui);
+      color: #ffffff;
+      border-color: var(--accent-ui);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #e55a08;
+      border-color: #e55a08;
+    }
+
+    .btn.active {
+      border-color: var(--accent-ui);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent-ui) 35%, transparent);
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 1560px;
+      margin: 0 auto;
+      padding: 24px 28px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Preset Strip */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .presets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+      gap: 12px;
+    }
+
+    .preset-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 13px 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.16s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+
+    .preset-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--text-muted);
+    }
+
+    .preset-card.active {
+      border-color: var(--accent-ui);
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-ui) 25%, transparent);
+    }
+
+    .preset-swatches {
+      display: flex;
+      height: 28px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(128, 128, 128, 0.25);
+      forced-color-adjust: none;
+    }
+
+    .preset-swatches span {
+      height: 100%;
+    }
+
+    .preset-tag {
+      font-size: 10px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      align-self: flex-start;
+    }
+
+    .preset-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .preset-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.35;
+    }
+
+    /* Studio Workspace: Left Controls + Right Visualizer */
+    .workspace {
+      display: grid;
+      grid-template-columns: 430px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1120px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    /* Zone Selector Tabs in Left Panel */
+    .zone-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .zone-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.15s ease;
+    }
+
+    .zone-card:hover {
+      border-color: var(--text-muted);
+    }
+
+    .zone-card.active {
+      border-color: var(--accent-ui);
+      background: color-mix(in oklab, var(--bg-card) 85%, var(--accent-ui));
+    }
+
+    .zone-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .zone-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      flex-shrink: 0;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+      forced-color-adjust: none;
+    }
+
+    .zone-info {
+      min-width: 0;
+    }
+
+    .zone-title {
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .zone-pct {
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .zone-parts {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .zone-selected-spool {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .spool-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      display: block;
+    }
+
+    .spool-code {
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+    }
+
+    /* Filament Swatch Grid */
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      background: var(--bg-subtle);
+      padding: 4px;
+      border-radius: 9px;
+    }
+
+    .filter-tab {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .filter-tab.active {
+      background: var(--bg-card);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    .swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      gap: 8px;
+      max-height: 330px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .swatch-btn {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+      transition: all 0.12s ease;
+    }
+
+    .swatch-btn:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-1px);
+    }
+
+    .swatch-btn.selected {
+      border-color: var(--accent-ui);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent-ui) 35%, transparent);
+    }
+
+    .swatch-chip {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      border: 1px solid rgba(128,128,128,0.3);
+      forced-color-adjust: none;
+    }
+
+    .swatch-meta {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .swatch-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .swatch-sku {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .material-warning {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      font-size: 12px;
+      display: none;
+      line-height: 1.4;
+    }
+
+    [data-theme="light"] .material-warning {
+      color: #b45309;
+      background: #fef3c7;
+    }
+
+    /* Right Panel: Render Canvas & Scene Visualizer */
+    .stage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .view-mode-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-subtle);
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .view-mode-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .view-mode-btn.active {
+      background: var(--bg-card);
+      color: var(--text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .render-thumbs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .render-thumb {
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.14s ease;
+    }
+
+    .render-thumb:hover {
+      border-color: var(--text-muted);
+    }
+
+    .render-thumb.active {
+      border-color: var(--accent-ui);
+      background: color-mix(in oklab, var(--bg-card) 84%, var(--accent-ui));
+    }
+
+    .canvas-wrap {
+      position: relative;
+      width: 100%;
+      background: #14171d;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 520px;
+    }
+
+    canvas#renderCanvas {
+      max-width: 100%;
+      max-height: 620px;
+      width: auto;
+      height: auto;
+      display: block;
+    }
+
+    .canvas-overlay-bar {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(15, 17, 21, 0.82);
+      backdrop-filter: blur(10px);
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #f3f4f6;
+      flex-wrap: wrap;
+    }
+
+    .split-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .split-control input[type="range"] {
+      width: 130px;
+      accent-color: var(--accent-ui);
+      cursor: pointer;
+    }
+
+    /* Interactive Closet vs WFH Office SVG Scene */
+    .scene-view {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .scene-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 820px) {
+      .scene-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .scene-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .scene-box-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .scene-box-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .scene-box-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Spec Bar below Canvas */
+    .active-recipe-bar {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 680px) {
+      .active-recipe-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .recipe-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .recipe-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(128,128,128,0.3);
+      flex-shrink: 0;
+      forced-color-adjust: none;
+    }
+
+    /* Compare Tray & Spool Calculator */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .bottom-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .compare-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .compare-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .calc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+
+    .calc-input {
+      width: 70px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font: inherit;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .spool-summary {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .spool-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      padding: 10px 14px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-badge">VAULT</span>
+      <div>
+        <div class="brand-title">Bambu Lab Filament &amp; Color Design Prospect</div>
+        <div class="brand-sub">Interactive Render Color-Swapper · Closet Bolt Boxes &amp; WFH Office System</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-primary" id="shareLinkBtn" title="Copy shareable link to this exact color combination">
+        <span>🔗 Share Combo Link</span>
+      </button>
+      <button class="btn" id="savePngBtn" title="Download recolored 3D render PNG with Bambu Lab filament SKU legend">
+        <span>📷 Save Render PNG</span>
+      </button>
+      <button class="btn" id="pinPaletteBtn" title="Pin current combination to comparison tray below">
+        <span>＋ Pin to Compare</span>
+      </button>
+      <button class="btn" id="resetPromoBtn" title="Reset to Official USSA Promo Colors">
+        <span>↺ Official Promo</span>
+      </button>
+      <button class="btn" id="themeToggleBtn">
+        <span>☀/☾ Theme</span>
+      </button>
+      <a class="btn" href="https://github.com/stari4ek/vault-color-studio" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" title="View source or contribute on GitHub">
+        <span>GitHub ↗</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 1. Curated Design Prospects -->
+    <section>
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">1. Curated Design Prospects (Click to Preview on Renders)</h2>
+          <p class="section-subtitle">Start with the official USSA promo palette (`10104` Light Gray) or explore palettes tailored for a closet + WFH office setup.</p>
+        </div>
+      </div>
+      <div class="presets-grid" id="presetsGrid"></div>
+    </section>
+
+    <!-- 2. Interactive Studio Workspace -->
+    <section class="workspace">
+
+      <!-- Left Column: Zone & Bambu Filament Selector -->
+      <div class="panel">
+        <div class="section-header" style="margin-bottom: 10px;">
+          <div>
+            <h3 class="section-title" style="font-size: 16px;">2. Customize by VAULT Part Zone</h3>
+            <p class="section-subtitle">Click a zone below, then pick a Bambu Lab filament swatch.</p>
+          </div>
+        </div>
+
+        <div class="zone-cards" id="zoneCards">
+          <div class="zone-card active" data-zone="primary">
+            <div class="zone-left">
+              <div class="zone-dot" id="dot-primary"></div>
+              <div class="zone-info">
+                <div class="zone-title">Primary — Outer Shell <span class="zone-pct">~65% wt</span></div>
+                <div class="zone-parts">Modules, Roofs, Facades, Runner Guides, Key Cap</div>
+              </div>
+            </div>
+            <div class="zone-selected-spool">
+              <span class="spool-name" id="name-primary">Light Gray</span>
+              <span class="spool-code" id="code-primary">PLA Basic · 10104</span>
+            </div>
+          </div>
+
+          <div class="zone-card" data-zone="secondary">
+            <div class="zone-left">
+              <div class="zone-dot" id="dot-secondary"></div>
+              <div class="zone-info">
+                <div class="zone-title">Secondary — Inner &amp; Hardware <span class="zone-pct">~30% wt</span></div>
+                <div class="zone-parts">Inner Drawer Boxes, Handles, Key Lock, Hinges, Slides</div>
+              </div>
+            </div>
+            <div class="zone-selected-spool">
+              <span class="spool-name" id="name-secondary">Dark Gray</span>
+              <span class="spool-code" id="code-secondary">PLA Basic · 10105</span>
+            </div>
+          </div>
+
+          <div class="zone-card" data-zone="accent">
+            <div class="zone-left">
+              <div class="zone-dot" id="dot-accent"></div>
+              <div class="zone-info">
+                <div class="zone-title">Accent — Springs &amp; Bins <span class="zone-pct">~5% wt</span></div>
+                <div class="zone-parts">Leaf Springs, Bottom Latch, Stoppers, Geared Rails, Bins</div>
+              </div>
+            </div>
+            <div class="zone-selected-spool">
+              <span class="spool-name" id="name-accent">Orange</span>
+              <span class="spool-code" id="code-accent">PLA Basic · 10300</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-tabs" id="materialTabs">
+          <button class="filter-tab active" data-mat="ALL">All Bambu PLA/PETG</button>
+          <button class="filter-tab" data-mat="PLA Basic">PLA Basic</button>
+          <button class="filter-tab" data-mat="PLA Matte">PLA Matte</button>
+          <button class="filter-tab" data-mat="PETG HF">PETG HF</button>
+        </div>
+
+        <div class="swatches-grid" id="swatchesGrid"></div>
+
+        <div class="material-warning" id="matteWarning">
+          <strong>Mechanical Part Tip:</strong> You selected <strong>PLA Matte</strong> for a mechanical zone. While PLA Matte looks incredible on outer shells and facades, USSA recommends <strong>Bambu PLA Basic</strong> or <strong>PETG HF</strong> for <code>Springs.stl</code>, <code>Latch.stl</code>, and <code>Runner Slides</code> so they don't creep or bind.
+        </div>
+      </div>
+
+      <!-- Right Column: Real-Time Render Color-Swapper & Environment Preview -->
+      <div class="panel">
+        <div class="stage-header">
+          <div>
+            <h3 class="section-title" id="activeRenderTitle" style="font-size: 16px;">Exploded Drawer Module (S3 1F)</h3>
+            <p class="section-subtitle" id="activeRenderSubtitle">Real-time recoloring of official USSA 3D renders</p>
+          </div>
+          <div class="view-mode-tabs">
+            <button class="view-mode-btn active" id="modeRendersBtn">3D Render Color-Swapper</button>
+            <button class="view-mode-btn" id="modeScenesBtn">Closet &amp; WFH Office Stack</button>
+          </div>
+        </div>
+
+        <!-- Render Mode -->
+        <div id="renderModeContainer">
+          <div class="render-thumbs" id="renderThumbs"></div>
+
+          <div class="canvas-wrap">
+            <canvas id="renderCanvas" width="960" height="672"></canvas>
+
+            <div class="canvas-overlay-bar">
+              <div class="split-control">
+                <label for="splitSlider"><strong>Before / After Split:</strong></label>
+                <input type="range" id="splitSlider" min="0" max="100" value="0" />
+                <span id="splitLabel">100% Custom Color</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn" id="holdOrigBtn" style="padding:5px 10px; font-size:12px;">
+                  Hold to See Original Promo
+                </button>
+                <button class="btn" id="swapPriSecBtn" style="padding:5px 10px; font-size:12px;">
+                  ⇄ Invert Primary / Secondary
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Closet & WFH Office Stack Interactive SVG Mode -->
+        <div class="scene-view" id="sceneModeContainer">
+          <div class="scene-grid">
+            <!-- Stage 1: Closet Shelf Small Bolt Boxes -->
+            <div class="scene-box">
+              <div class="scene-box-head">
+                <div>
+                  <div class="scene-box-title">Phase 1: Closet / Shelf Bolt Organizers (S3 &amp; S4)</div>
+                  <div class="scene-box-sub">Compact 1F &amp; 2F Drawers with optional fastener category tags</div>
+                </div>
+                <label style="font-size:12px; display:flex; align-items:center; gap:5px; cursor:pointer;">
+                  <input type="checkbox" id="categoryTagsToggle" checked />
+                  Color-code labels by bolt size
+                </label>
+              </div>
+              <div id="closetSvgContainer" style="width:100%; overflow:hidden; border-radius:10px;"></div>
+            </div>
+
+            <!-- Stage 2: WFH Office Larger System -->
+            <div class="scene-box">
+              <div class="scene-box-head">
+                <div>
+                  <div class="scene-box-title">Phase 2: WFH Office Credenza / Under-Desk (L &amp; XL)</div>
+                  <div class="scene-box-sub">Cohesive larger drawers + top-opening Sustainers in a home office</div>
+                </div>
+              </div>
+              <div id="officeSvgContainer" style="width:100%; overflow:hidden; border-radius:10px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Filament Recipe Bar -->
+        <div class="active-recipe-bar">
+          <div class="recipe-pill">
+            <div class="recipe-swatch" id="rec-swatch-primary"></div>
+            <div>
+              <div style="font-size:11px; color:var(--text-muted);">PRIMARY (SHELL / FACADE / ROOF)</div>
+              <div style="font-size:13px; font-weight:700;" id="rec-text-primary">Bambu PLA Basic · Light Gray (10104)</div>
+            </div>
+          </div>
+          <div class="recipe-pill">
+            <div class="recipe-swatch" id="rec-swatch-secondary"></div>
+            <div>
+              <div style="font-size:11px; color:var(--text-muted);">SECONDARY (INNER BOX / LOCK / HANDLE)</div>
+              <div style="font-size:13px; font-weight:700;" id="rec-text-secondary">Bambu PLA Basic · Dark Gray (10105)</div>
+            </div>
+          </div>
+          <div class="recipe-pill">
+            <div class="recipe-swatch" id="rec-swatch-accent"></div>
+            <div>
+              <div style="font-size:11px; color:var(--text-muted);">ACCENT (SPRINGS / LATCH / STOPPERS / BINS)</div>
+              <div style="font-size:13px; font-weight:700;" id="rec-text-accent">Bambu PLA Basic · Orange (10300)</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Pinned Combinations & Spool Calculator -->
+    <section class="bottom-grid">
+      <div class="panel">
+        <div class="section-header">
+          <div>
+            <h3 class="section-title" style="font-size: 16px;">3. Pinned Palette Comparison Tray</h3>
+            <p class="section-subtitle">Click any pinned card to load it onto the 3D render canvas, or pin your own custom combinations.</p>
+          </div>
+        </div>
+        <div class="compare-cards" id="compareCards"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-header">
+          <div>
+            <h3 class="section-title" style="font-size: 16px;">4. Bambu Lab Spool &amp; Weight Estimator</h3>
+            <p class="section-subtitle">Estimate how many 1kg spools of your chosen colors you need to order.</p>
+          </div>
+          <button class="btn" id="copyShoppingListBtn" title="Copy formatted Bambu Lab filament shopping list to clipboard">
+            <span>📋 Copy Shopping List</span>
+          </button>
+        </div>
+
+        <div class="calc-row">
+          <div>
+            <strong>Small Bolt Drawers (S3 / S4 · 1F)</strong>
+            <div style="font-size:11.5px; color:var(--text-muted);">~380g total per complete module + inner box</div>
+          </div>
+          <input type="number" class="calc-input" id="qtySmall" value="4" min="0" max="50" />
+        </div>
+
+        <div class="calc-row">
+          <div>
+            <strong>Medium / Large Office Drawers (M5 / L5 · 2F)</strong>
+            <div style="font-size:11.5px; color:var(--text-muted);">~780g total per complete module + inner box</div>
+          </div>
+          <input type="number" class="calc-input" id="qtyLarge" value="2" min="0" max="50" />
+        </div>
+
+        <div class="calc-row">
+          <div>
+            <strong>Gridfinity Bins / Dividers Inside</strong>
+            <div style="font-size:11.5px; color:var(--text-muted);">~120g per drawer in Accent or Secondary color</div>
+          </div>
+          <input type="number" class="calc-input" id="qtyBins" value="4" min="0" max="50" />
+        </div>
+
+        <div class="spool-summary" id="spoolSummary"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="renders-data.js"></script>
+  <script>
+    // Complete Bambu Lab Filament Library (Authentic SKUs & Hex values)
+    const BAMBU_FILAMENTS = [
+      // PLA Basic Neutrals
+      { id: '10104', name: 'Light Gray', material: 'PLA Basic', hex: '#D1D3D5', note: 'Official USSA Promo Primary' },
+      { id: '10105', name: 'Dark Gray', material: 'PLA Basic', hex: '#545454', note: 'Official USSA Promo Secondary' },
+      { id: '10100', name: 'Jade White', material: 'PLA Basic', hex: '#F4F5F6', note: 'Clean bright white' },
+      { id: '10103', name: 'Gray', material: 'PLA Basic', hex: '#8E9089', note: 'Mid-tone neutral gray' },
+      { id: '10102', name: 'Silver', material: 'PLA Basic', hex: '#A6A9AA', note: 'Metallic industrial finish' },
+      { id: '10101', name: 'Black', material: 'PLA Basic', hex: '#212326', note: 'Deep jet black' },
+      { id: '10800', name: 'Brown', material: 'PLA Basic', hex: '#9D432C', note: 'Warm terracotta-brown' },
+      { id: '10801', name: 'Cocoa Brown', material: 'PLA Basic', hex: '#6F5034', note: 'Deep walnut tone' },
+      { id: '10403', name: 'Beige', material: 'PLA Basic', hex: '#F2E6CE', note: 'Warm cream neutral' },
+
+      // PLA Basic Accents & Colors
+      { id: '10300', name: 'Orange', material: 'PLA Basic', hex: '#FF6A13', note: 'Official USSA Promo Accent' },
+      { id: '10301', name: 'Pumpkin Orange', material: 'PLA Basic', hex: '#FF8C19', note: 'Warm amber orange' },
+      { id: '10400', name: 'Yellow', material: 'PLA Basic', hex: '#F4EE2A', note: 'High-vis DeWalt/Stanley yellow' },
+      { id: '10402', name: 'Sunflower Yellow', material: 'PLA Basic', hex: '#FEC600', note: 'Warm golden yellow' },
+      { id: '10401', name: 'Gold', material: 'PLA Basic', hex: '#E4BD68', note: 'Brushed brass/gold accent' },
+      { id: '10200', name: 'Red', material: 'PLA Basic', hex: '#C12E1F', note: 'Milwaukee/Packout red' },
+      { id: '10501', name: 'Bambu Green', material: 'PLA Basic', hex: '#00AE42', note: 'Festool/Bambu vibrant green' },
+      { id: '10502', name: 'Mistletoe Green', material: 'PLA Basic', hex: '#3F8E43', note: 'Deep forest workshop green' },
+      { id: '10601', name: 'Cobalt Blue', material: 'PLA Basic', hex: '#0056B8', note: 'Classic machinist blue' },
+      { id: '10603', name: 'Blue Grey', material: 'PLA Basic', hex: '#5B6579', note: 'Steel slate blue-grey' },
+      { id: '10604', name: 'Cyan', material: 'PLA Basic', hex: '#0086D6', note: 'Makita/electric blue' },
+
+      // PLA Matte (Great for WFH Office Shells!)
+      { id: '11100', name: 'Ivory White', material: 'PLA Matte', hex: '#F0EFEA', note: 'Soft architectural white' },
+      { id: '11103', name: 'Bone White', material: 'PLA Matte', hex: '#DFD8C8', note: 'Warm vintage computer beige' },
+      { id: '11401', name: 'Desert Tan', material: 'PLA Matte', hex: '#E2D1B5', note: 'Warm sand / Noctua light' },
+      { id: '11102', name: 'Ash Gray', material: 'PLA Matte', hex: '#9B9EA0', note: 'Concrete studio matte gray' },
+      { id: '11104', name: 'Nardo Gray', material: 'PLA Matte', hex: '#75787B', note: 'Automotive medium slate' },
+      { id: '11101', name: 'Charcoal', material: 'PLA Matte', hex: '#2B2D30', note: 'Ultra-clean stealth matte black' },
+      { id: '11203', name: 'Terracotta', material: 'PLA Matte', hex: '#B15533', note: 'Earthy warm clay orange' },
+      { id: '11300', name: 'Mandarin Orange', material: 'PLA Matte', hex: '#F99963', note: 'Soft pastel studio orange' },
+      { id: '11400', name: 'Lemon Yellow', material: 'PLA Matte', hex: '#F7D959', note: 'Muted studio yellow' },
+      { id: '11501', name: 'Dark Green', material: 'PLA Matte', hex: '#68724D', note: 'Olive / botanical sage green' },
+      { id: '11600', name: 'Marine Blue', material: 'PLA Matte', hex: '#0078BF', note: 'Deep matte ocean blue' },
+      { id: '11200', name: 'Scarlet Red', material: 'PLA Matte', hex: '#DE4343', note: 'Soft crimson red' },
+
+      // PETG HF (Heavy-duty mechanical & garage option)
+      { id: '33101', name: 'Gray (PETG HF)', material: 'PETG HF', hex: '#ADB1B2', note: 'Tough mechanical gray' },
+      { id: '33102', name: 'Dark Gray (PETG HF)', material: 'PETG HF', hex: '#515559', note: 'High-strength dark gray' },
+      { id: '33100', name: 'Black (PETG HF)', material: 'PETG HF', hex: '#242629', note: 'Heavy duty black' },
+      { id: '33300', name: 'Orange (PETG HF)', material: 'PETG HF', hex: '#F75708', note: 'Extra snappy for springs & latches' },
+      { id: '33400', name: 'Yellow (PETG HF)', material: 'PETG HF', hex: '#FFD00B', note: 'Tough industrial yellow' },
+      { id: '33500', name: 'Green (PETG HF)', material: 'PETG HF', hex: '#00A53C', note: 'Tough systainer green' }
+    ];
+
+    const PRESET_PROSPECTS = [
+      {
+        id: 'ussa-promo',
+        name: '01. Official USSA Promo',
+        tag: 'Recommended · Closet + WFH',
+        desc: 'Exact manual spec: Light Gray 10104 shell, Dark Gray inner box, Orange springs & stoppers.',
+        primary: '10104',
+        secondary: '10105',
+        accent: '10300'
+      },
+      {
+        id: 'nord-office',
+        name: '02. Warm Studio / WFH Desk',
+        tag: 'Best for Home Office',
+        desc: 'Bone White matte exterior with Charcoal trays and warm Terracotta accents.',
+        primary: '11103',
+        secondary: '11101',
+        accent: '11203'
+      },
+      {
+        id: 'ash-architect',
+        name: '03. Concrete & Amber',
+        tag: 'Industrial Minimal',
+        desc: 'Matte Ash Gray shells hide layer lines effortlessly, paired with Charcoal and Sunflower Yellow.',
+        primary: '11102',
+        secondary: '11101',
+        accent: '10402'
+      },
+      {
+        id: 'stealth-highvis',
+        name: '04. Stealth + Bright Trays',
+        tag: 'Easy Bolt Spotting',
+        desc: 'Charcoal exterior with Light Gray inner drawers so black M3/M4 bolts are easy to see inside!',
+        primary: '11101',
+        secondary: '10104',
+        accent: '10300'
+      },
+      {
+        id: 'systainer-pro',
+        name: '05. Festool / Sys-Green',
+        tag: 'Classic Workshop',
+        desc: 'Light Gray 10104 shells with Dark Gray hardware and Bambu Green latches & bins.',
+        primary: '10104',
+        secondary: '10105',
+        accent: '10501'
+      },
+      {
+        id: 'botanical-desk',
+        name: '06. Botanical & Brass',
+        tag: 'Furniture Vibe',
+        desc: 'Ivory White shells with Dark Green inner boxes and Gold mechanical accents.',
+        primary: '11100',
+        secondary: '11501',
+        accent: '10401'
+      },
+      {
+        id: 'desert-tactile',
+        name: '07. Desert Sand & Black',
+        tag: 'Warm Utility',
+        desc: 'Desert Tan matte shells with Black hardware and Orange mechanical stoppers.',
+        primary: '11401',
+        secondary: '10101',
+        accent: '10300'
+      },
+      {
+        id: 'machinist-blue',
+        name: '08. Machinist Blue Slate',
+        tag: 'Closet Hardware',
+        desc: 'Blue Grey shells with Black inner boxes and Cobalt Blue springs & bins.',
+        primary: '10603',
+        secondary: '10101',
+        accent: '10601'
+      }
+    ];
+
+    // State
+    let currentState = {
+      activeZone: 'primary',
+      materialFilter: 'ALL',
+      primary: '10104',
+      secondary: '10105',
+      accent: '10300',
+      activePresetId: 'ussa-promo',
+      activeRenderKey: '01-drawer-exploded',
+      viewMode: 'renders', // 'renders' | 'scenes'
+      splitPct: 0,
+      holdOriginal: false,
+      pinnedCombos: [
+        { name: 'Official USSA Promo', primary: '10104', secondary: '10105', accent: '10300' },
+        { name: 'Warm Studio WFH', primary: '11103', secondary: '11101', accent: '11203' },
+        { name: 'Stealth + Bright Trays', primary: '11101', secondary: '10104', accent: '10300' },
+        { name: 'Botanical & Brass', primary: '11100', secondary: '11501', accent: '10401' }
+      ]
+    };
+
+    // Cache decoded ImageData for each render + mask
+    const decodedRenders = {};
+
+    function trackEvent(eventName, params = {}) {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventName, params);
+      }
+    }
+
+    function getFilament(id) {
+      return BAMBU_FILAMENTS.find(f => f.id === id) || BAMBU_FILAMENTS[0];
+    }
+
+    function hexToRgb(hex) {
+      const clean = hex.replace('#', '');
+      const num = parseInt(clean, 16);
+      return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+    }
+
+    function flashButtonText(btnId, tempText) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      const span = btn.querySelector('span') || btn;
+      const orig = span.dataset.origText || span.textContent;
+      span.dataset.origText = orig;
+      span.textContent = tempText;
+      setTimeout(() => { span.textContent = orig; }, 2000);
+    }
+
+    function loadStateFromUrl() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const p = params.get('p');
+        const s = params.get('s');
+        const a = params.get('a');
+        const r = params.get('r');
+        const m = params.get('m');
+        if (p && BAMBU_FILAMENTS.some(f => f.id === p)) currentState.primary = p;
+        if (s && BAMBU_FILAMENTS.some(f => f.id === s)) currentState.secondary = s;
+        if (a && BAMBU_FILAMENTS.some(f => f.id === a)) currentState.accent = a;
+        if (r && window.VAULT_RENDERS && window.VAULT_RENDERS[r]) currentState.activeRenderKey = r;
+        if (m === 'scenes' || m === 'renders') currentState.viewMode = m;
+
+        const matchPreset = PRESET_PROSPECTS.find(
+          pr => pr.primary === currentState.primary && pr.secondary === currentState.secondary && pr.accent === currentState.accent
+        );
+        currentState.activePresetId = matchPreset ? matchPreset.id : null;
+      } catch (_) {}
+    }
+
+    function syncUrlState() {
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('p', currentState.primary);
+        url.searchParams.set('s', currentState.secondary);
+        url.searchParams.set('a', currentState.accent);
+        url.searchParams.set('r', currentState.activeRenderKey);
+        if (currentState.viewMode === 'scenes') {
+          url.searchParams.set('m', 'scenes');
+        } else {
+          url.searchParams.delete('m');
+        }
+        window.history.replaceState({}, '', url.toString());
+      } catch (_) {}
+    }
+
+    function exportRenderWithLegendPng() {
+      const srcCanvas = document.getElementById('renderCanvas');
+      if (!srcCanvas || !srcCanvas.width) return;
+
+      const legendHeight = 84;
+      const outCanvas = document.createElement('canvas');
+      outCanvas.width = srcCanvas.width;
+      outCanvas.height = srcCanvas.height + legendHeight;
+      const ctx = outCanvas.getContext('2d');
+
+      // Draw recolored 3D render
+      ctx.drawImage(srcCanvas, 0, 0);
+
+      // Draw bottom specification legend bar
+      ctx.fillStyle = '#14171d';
+      ctx.fillRect(0, srcCanvas.height, outCanvas.width, legendHeight);
+      ctx.strokeStyle = '#2e3442';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, srcCanvas.height);
+      ctx.lineTo(outCanvas.width, srcCanvas.height);
+      ctx.stroke();
+
+      const p = getFilament(currentState.primary);
+      const s = getFilament(currentState.secondary);
+      const a = getFilament(currentState.accent);
+      const zones = [
+        { label: 'PRIMARY (SHELL / FACADE)', fil: p },
+        { label: 'SECONDARY (INNER / LOCK)', fil: s },
+        { label: 'ACCENT (SPRINGS / BINS)', fil: a }
+      ];
+
+      const colW = outCanvas.width / 3;
+      zones.forEach((z, idx) => {
+        const x = Math.round(idx * colW + 22);
+        const y = srcCanvas.height + 20;
+
+        // Swatch square
+        ctx.fillStyle = z.fil.hex;
+        ctx.fillRect(x, y, 42, 42);
+        ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(x, y, 42, 42);
+
+        // Text
+        ctx.fillStyle = '#9ca3af';
+        ctx.font = 'bold 11px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText(z.label, x + 54, y + 15);
+
+        ctx.fillStyle = '#f3f4f6';
+        ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText(`Bambu ${z.fil.material} · ${z.fil.name} (${z.fil.id})`, x + 54, y + 36);
+      });
+
+      const link = document.createElement('a');
+      link.download = `vault-bambu-${p.id}-${s.id}-${a.id}.png`;
+      link.href = outCanvas.toDataURL('image/png');
+      link.click();
+
+      trackEvent('export_png', {
+        primary_sku: p.id,
+        secondary_sku: s.id,
+        accent_sku: a.id,
+        render_key: currentState.activeRenderKey
+      });
+      flashButtonText('savePngBtn', '✓ Saved PNG!');
+    }
+
+    function copyShoppingList() {
+      const qSmall = Math.max(0, parseInt(document.getElementById('qtySmall').value || '0', 10));
+      const qLarge = Math.max(0, parseInt(document.getElementById('qtyLarge').value || '0', 10));
+      const qBins = Math.max(0, parseInt(document.getElementById('qtyBins').value || '0', 10));
+
+      const totalModuleWeight = qSmall * 380 + qLarge * 780;
+      const priGrams = Math.round(totalModuleWeight * 0.65);
+      const secGrams = Math.round(totalModuleWeight * 0.30);
+      const accGrams = Math.round(totalModuleWeight * 0.05 + qBins * 120);
+
+      const p = getFilament(currentState.primary);
+      const s = getFilament(currentState.secondary);
+      const a = getFilament(currentState.accent);
+
+      const spoolsPri = priGrams === 0 ? 0 : Math.max(1, Math.ceil(priGrams / 950));
+      const spoolsSec = secGrams === 0 ? 0 : Math.max(1, Math.ceil(secGrams / 950));
+      const spoolsAcc = accGrams === 0 ? 0 : Math.max(1, Math.ceil(accGrams / 950));
+
+      const lines = [
+        `VAULT × Bambu Lab Filament Shopping List`,
+        `----------------------------------------`,
+        `• Primary (Shells/Roofs/Facades): ${spoolsPri}x 1kg Spool — Bambu ${p.material} ${p.name} (SKU: ${p.id}) [~${priGrams}g]`,
+        `• Secondary (Inner Boxes/Locks/Handles): ${spoolsSec}x 1kg Spool — Bambu ${s.material} ${s.name} (SKU: ${s.id}) [~${secGrams}g]`,
+        `• Accent (Springs/Latches/Bins): ${spoolsAcc}x 1kg Spool — Bambu ${a.material} ${a.name} (SKU: ${a.id}) [~${accGrams}g]`,
+        ``,
+        `Planned Modules: ${qSmall}x Small (S3/S4) + ${qLarge}x Large (M5/L5) + ${qBins}x Bin Sets`,
+        `Interactive Preview: ${window.location.href}`
+      ].join('\n');
+
+      navigator.clipboard.writeText(lines).then(() => {
+        flashButtonText('copyShoppingListBtn', '✓ Copied List!');
+        trackEvent('copy_shopping_list', {
+          primary_sku: p.id,
+          secondary_sku: s.id,
+          accent_sku: a.id
+        });
+      });
+    }
+
+    // Initialize UI
+    function init() {
+      loadStateFromUrl();
+      renderPresets();
+      renderSwatches();
+      renderThumbnails();
+      renderCompareTray();
+      updateZoneCardsUI();
+      updateSpoolCalculator();
+      setViewMode(currentState.viewMode);
+      loadAndDrawActiveRender();
+      renderSvgScenes();
+
+      // Zone cards click
+      document.querySelectorAll('.zone-card').forEach(card => {
+        card.addEventListener('click', () => {
+          currentState.activeZone = card.dataset.zone;
+          document.querySelectorAll('.zone-card').forEach(c => c.classList.toggle('active', c === card));
+          renderSwatches();
+        });
+      });
+
+      // Material filter tabs
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          currentState.materialFilter = tab.dataset.mat;
+          document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t === tab));
+          renderSwatches();
+        });
+      });
+
+      // View mode toggle
+      document.getElementById('modeRendersBtn').addEventListener('click', () => setViewMode('renders'));
+      document.getElementById('modeScenesBtn').addEventListener('click', () => setViewMode('scenes'));
+
+      // Split slider
+      const splitSlider = document.getElementById('splitSlider');
+      splitSlider.addEventListener('input', (e) => {
+        currentState.splitPct = parseInt(e.target.value, 10);
+        document.getElementById('splitLabel').textContent =
+          currentState.splitPct === 0 ? '100% Custom Color' : `${currentState.splitPct}% Original / ${100 - currentState.splitPct}% Custom`;
+        drawCanvas();
+      });
+
+      // Hold Original button
+      const holdBtn = document.getElementById('holdOrigBtn');
+      const startHold = () => { currentState.holdOriginal = true; drawCanvas(); };
+      const endHold = () => { currentState.holdOriginal = false; drawCanvas(); };
+      holdBtn.addEventListener('mousedown', startHold);
+      holdBtn.addEventListener('mouseup', endHold);
+      holdBtn.addEventListener('mouseleave', endHold);
+      holdBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(); });
+      holdBtn.addEventListener('touchend', endHold);
+
+      // Swap Primary / Secondary
+      document.getElementById('swapPriSecBtn').addEventListener('click', () => {
+        const tmp = currentState.primary;
+        currentState.primary = currentState.secondary;
+        currentState.secondary = tmp;
+        currentState.activePresetId = null;
+        refreshAll();
+      });
+
+      // Topbar buttons
+      document.getElementById('shareLinkBtn').addEventListener('click', () => {
+        syncUrlState();
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          flashButtonText('shareLinkBtn', '✓ Link Copied!');
+          trackEvent('share_link', {
+            primary_sku: currentState.primary,
+            secondary_sku: currentState.secondary,
+            accent_sku: currentState.accent
+          });
+        });
+      });
+
+      document.getElementById('savePngBtn').addEventListener('click', exportRenderWithLegendPng);
+      document.getElementById('copyShoppingListBtn').addEventListener('click', copyShoppingList);
+
+      document.getElementById('resetPromoBtn').addEventListener('click', () => {
+        applyPreset(PRESET_PROSPECTS[0]);
+      });
+
+      document.getElementById('pinPaletteBtn').addEventListener('click', () => {
+        const p = getFilament(currentState.primary);
+        const s = getFilament(currentState.secondary);
+        const a = getFilament(currentState.accent);
+        currentState.pinnedCombos.unshift({
+          name: `${p.name} + ${s.name} + ${a.name}`,
+          primary: currentState.primary,
+          secondary: currentState.secondary,
+          accent: currentState.accent
+        });
+        if (currentState.pinnedCombos.length > 6) currentState.pinnedCombos.pop();
+        renderCompareTray();
+      });
+
+      document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        const html = document.documentElement;
+        html.dataset.theme = html.dataset.theme === 'light' ? 'dark' : 'light';
+      });
+
+      document.getElementById('categoryTagsToggle').addEventListener('change', () => {
+        renderSvgScenes();
+      });
+
+      ['qtySmall', 'qtyLarge', 'qtyBins'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateSpoolCalculator);
+      });
+    }
+
+    function setViewMode(mode) {
+      currentState.viewMode = mode;
+      document.getElementById('modeRendersBtn').classList.toggle('active', mode === 'renders');
+      document.getElementById('modeScenesBtn').classList.toggle('active', mode === 'scenes');
+      document.getElementById('renderModeContainer').style.display = mode === 'renders' ? 'block' : 'none';
+      document.getElementById('sceneModeContainer').style.display = mode === 'scenes' ? 'flex' : 'none';
+      syncUrlState();
+      if (mode === 'scenes') renderSvgScenes();
+    }
+
+    function applyPreset(preset) {
+      currentState.primary = preset.primary;
+      currentState.secondary = preset.secondary;
+      currentState.accent = preset.accent;
+      currentState.activePresetId = preset.id;
+      trackEvent('select_preset', {
+        preset_id: preset.id,
+        primary_sku: preset.primary,
+        secondary_sku: preset.secondary,
+        accent_sku: preset.accent
+      });
+      refreshAll();
+    }
+
+    function refreshAll() {
+      syncUrlState();
+      renderPresets();
+      updateZoneCardsUI();
+      renderSwatches();
+      drawCanvas();
+      renderSvgScenes();
+      updateSpoolCalculator();
+    }
+
+    function renderPresets() {
+      const grid = document.getElementById('presetsGrid');
+      grid.innerHTML = PRESET_PROSPECTS.map(preset => {
+        const p = getFilament(preset.primary);
+        const s = getFilament(preset.secondary);
+        const a = getFilament(preset.accent);
+        const isActive = currentState.activePresetId === preset.id;
+        return `
+          <button class="preset-card ${isActive ? 'active' : ''}" data-preset="${preset.id}">
+            <div class="preset-swatches">
+              <span style="width:62%; background:${p.hex}" title="Primary: ${p.name}"></span>
+              <span style="width:28%; background:${s.hex}" title="Secondary: ${s.name}"></span>
+              <span style="width:10%; background:${a.hex}" title="Accent: ${a.name}"></span>
+            </div>
+            <span class="preset-tag">${preset.tag}</span>
+            <h4 class="preset-name">${preset.name}</h4>
+            <p class="preset-desc">${preset.desc}</p>
+          </button>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.preset-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const preset = PRESET_PROSPECTS.find(pr => pr.id === btn.dataset.preset);
+          if (preset) applyPreset(preset);
+        });
+      });
+    }
+
+    function updateZoneCardsUI() {
+      ['primary', 'secondary', 'accent'].forEach(zone => {
+        const fil = getFilament(currentState[zone]);
+        document.getElementById(`dot-${zone}`).style.background = fil.hex;
+        document.getElementById(`name-${zone}`).textContent = fil.name;
+        document.getElementById(`code-${zone}`).textContent = `${fil.material} · ${fil.id}`;
+
+        document.getElementById(`rec-swatch-${zone}`).style.background = fil.hex;
+        document.getElementById(`rec-text-${zone}`).textContent = `Bambu ${fil.material} · ${fil.name} (${fil.id})`;
+      });
+
+      // Check if Accent or Secondary uses PLA Matte
+      const secFil = getFilament(currentState.secondary);
+      const accFil = getFilament(currentState.accent);
+      const warnEl = document.getElementById('matteWarning');
+      warnEl.style.display = (accFil.material === 'PLA Matte' || secFil.material === 'PLA Matte') ? 'block' : 'none';
+    }
+
+    function renderSwatches() {
+      const grid = document.getElementById('swatchesGrid');
+      const activeFilId = currentState[currentState.activeZone];
+      const filtered = BAMBU_FILAMENTS.filter(f =>
+        currentState.materialFilter === 'ALL' || f.material === currentState.materialFilter
+      );
+
+      grid.innerHTML = filtered.map(f => `
+        <button class="swatch-btn ${f.id === activeFilId ? 'selected' : ''}" data-fid="${f.id}" title="${f.name} (${f.material} ${f.id}) — ${f.note}">
+          <span class="swatch-chip" style="background:${f.hex}"></span>
+          <span class="swatch-meta">
+            <span class="swatch-label">${f.name}</span>
+            <span class="swatch-sku">${f.material.replace('PLA ', '')} · ${f.id}</span>
+          </span>
+        </button>
+      `).join('');
+
+      grid.querySelectorAll('.swatch-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentState[currentState.activeZone] = btn.dataset.fid;
+          currentState.activePresetId = null;
+          trackEvent('select_filament', {
+            zone: currentState.activeZone,
+            filament_sku: btn.dataset.fid
+          });
+          refreshAll();
+        });
+      });
+    }
+
+    function renderThumbnails() {
+      const container = document.getElementById('renderThumbs');
+      const keys = Object.keys(window.VAULT_RENDERS || {});
+      container.innerHTML = keys.map(key => {
+        const item = window.VAULT_RENDERS[key];
+        const active = key === currentState.activeRenderKey;
+        return `
+          <button class="render-thumb ${active ? 'active' : ''}" data-rkey="${key}">
+            ${item.title}
+          </button>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.render-thumb').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentState.activeRenderKey = btn.dataset.rkey;
+          container.querySelectorAll('.render-thumb').forEach(b => b.classList.toggle('active', b === btn));
+          if (currentState.viewMode !== 'renders') setViewMode('renders');
+          syncUrlState();
+          loadAndDrawActiveRender();
+        });
+      });
+    }
+
+    // Load base64 image + mask and decode into pixel arrays
+    function loadAndDrawActiveRender() {
+      const key = currentState.activeRenderKey;
+      const meta = window.VAULT_RENDERS[key];
+      if (!meta) return;
+
+      document.getElementById('activeRenderTitle').textContent = meta.title;
+      document.getElementById('activeRenderSubtitle').textContent = meta.subtitle;
+
+      if (decodedRenders[key]) {
+        drawCanvas();
+        return;
+      }
+
+      const img = new Image();
+      const maskImg = new Image();
+      let loaded = 0;
+
+      const onBothLoaded = () => {
+        const w = meta.width;
+        const h = meta.height;
+        const off = document.createElement('canvas');
+        off.width = w;
+        off.height = h;
+        const ctx = off.getContext('2d');
+
+        ctx.drawImage(img, 0, 0, w, h);
+        const origData = ctx.getImageData(0, 0, w, h);
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(maskImg, 0, 0, w, h);
+        const maskData = ctx.getImageData(0, 0, w, h);
+
+        decodedRenders[key] = { w, h, orig: origData.data, mask: maskData.data };
+        drawCanvas();
+      };
+
+      img.onload = () => { loaded++; if (loaded === 2) onBothLoaded(); };
+      maskImg.onload = () => { loaded++; if (loaded === 2) onBothLoaded(); };
+      img.src = meta.src;
+      maskImg.src = meta.mask;
+    }
+
+    // Real-Time Physically-Plausible 3D Render Recoloring Shader
+    function shadeChannel(lum, baseLum, targetChannel) {
+      // Preserves deep ambient occlusion shadows and specular bevel highlights
+      if (lum <= baseLum) {
+        const ratio = lum / baseLum;
+        // Slight gamma curve keeps contact shadows crisp
+        return targetChannel * Math.pow(ratio, 0.92);
+      } else {
+        const highlightRatio = (lum - baseLum) / (255 - baseLum);
+        // Specular/ambient lift toward white without blowing out saturated colors
+        return targetChannel + (255 - targetChannel) * Math.pow(highlightRatio, 1.15) * 0.78;
+      }
+    }
+
+    function drawCanvas() {
+      const key = currentState.activeRenderKey;
+      const cached = decodedRenders[key];
+      if (!cached) return;
+
+      const canvas = document.getElementById('renderCanvas');
+      const { w, h, orig, mask } = cached;
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+
+      const ctx = canvas.getContext('2d');
+      const outImg = ctx.createImageData(w, h);
+      const out = outImg.data;
+
+      const priRgb = hexToRgb(getFilament(currentState.primary).hex);
+      const secRgb = hexToRgb(getFilament(currentState.secondary).hex);
+      const accRgb = hexToRgb(getFilament(currentState.accent).hex);
+
+      const splitX = currentState.holdOriginal ? w : Math.floor((currentState.splitPct / 100) * w);
+
+      // Reference luminance of the 3 zones in USSA's original renders:
+      // Primary (Light Gray 10104): ~196
+      // Secondary (Dark Gray 10105): ~72
+      // Accent (Orange 10300): ~142
+      const basePri = 196.0;
+      const baseSec = 72.0;
+      const baseAcc = 142.0;
+
+      for (let y = 0; y < h; y++) {
+        const rowOffset = y * w;
+        for (let x = 0; x < w; x++) {
+          const i = (rowOffset + x) * 4;
+          const r = orig[i];
+          const g = orig[i + 1];
+          const b = orig[i + 2];
+
+          if (x < splitX) {
+            out[i] = r;
+            out[i + 1] = g;
+            out[i + 2] = b;
+            out[i + 3] = 255;
+            if (x === splitX - 1) {
+              out[i] = 255; out[i + 1] = 106; out[i + 2] = 19;
+            }
+            continue;
+          }
+
+          const wp = mask[i] / 255.0;     // Red channel = Primary weight
+          const ws = mask[i + 1] / 255.0; // Green channel = Secondary weight
+          const wa = mask[i + 2] / 255.0; // Blue channel = Accent weight
+
+          const totalW = wp + ws + wa;
+          if (totalW < 0.02) {
+            out[i] = r;
+            out[i + 1] = g;
+            out[i + 2] = b;
+            out[i + 3] = 255;
+            continue;
+          }
+
+          // Perceived luminance of source pixel
+          const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+
+          let nr = r, ng = g, nb = b;
+
+          if (wp >= ws && wp >= wa) {
+            const pr = shadeChannel(lum, basePri, priRgb[0]);
+            const pg = shadeChannel(lum, basePri, priRgb[1]);
+            const pb = shadeChannel(lum, basePri, priRgb[2]);
+            nr = r * (1 - wp) + pr * wp;
+            ng = g * (1 - wp) + pg * wp;
+            nb = b * (1 - wp) + pb * wp;
+          } else if (ws >= wp && ws >= wa) {
+            const sr = shadeChannel(lum, baseSec, secRgb[0]);
+            const sg = shadeChannel(lum, baseSec, secRgb[1]);
+            const sb = shadeChannel(lum, baseSec, secRgb[2]);
+            nr = r * (1 - ws) + sr * ws;
+            ng = g * (1 - ws) + sg * ws;
+            nb = b * (1 - ws) + sb * ws;
+          } else {
+            const ar = shadeChannel(lum, baseAcc, accRgb[0]);
+            const ag = shadeChannel(lum, baseAcc, accRgb[1]);
+            const ab = shadeChannel(lum, baseAcc, accRgb[2]);
+            nr = r * (1 - wa) + ar * wa;
+            ng = g * (1 - wa) + ag * wa;
+            nb = b * (1 - wa) + ab * wa;
+          }
+
+          out[i] = nr;
+          out[i + 1] = ng;
+          out[i + 2] = nb;
+          out[i + 3] = 255;
+        }
+      }
+
+      ctx.putImageData(outImg, 0, 0);
+    }
+
+    // Render Interactive Closet Shelf & WFH Office Stack SVGs
+    function renderSvgScenes() {
+      const pri = getFilament(currentState.primary).hex;
+      const sec = getFilament(currentState.secondary).hex;
+      const acc = getFilament(currentState.accent).hex;
+      const useCatTags = document.getElementById('categoryTagsToggle').checked;
+
+      // Category colors for closet small bolt boxes
+      const catColors = useCatTags
+        ? ['#FF6A13', '#0056B8', '#FEC600', '#00AE42', '#C12E1F', '#FF6A13']
+        : [acc, acc, acc, acc, acc, acc];
+      const catLabels = ['M3 BOLTS', 'M4 BOLTS', 'M5 / M6', 'WOOD SCRW', 'INSERTS', 'WASHERS'];
+
+      // 1. Closet Shelf SVG (Two stacks of S3/S4 1F & 2F small bolt boxes)
+      let closetModules = '';
+      for (let col = 0; col < 2; col++) {
+        for (let row = 0; row < 3; row++) {
+          const idx = col * 3 + row;
+          const x = 75 + col * 185;
+          const y = 62 + row * 58;
+          const tagColor = catColors[idx];
+          const labelTxt = catLabels[idx];
+          closetModules += `
+            <g transform="translate(${x}, ${y})">
+              <!-- Outer Shell (Primary) -->
+              <rect x="0" y="0" width="160" height="52" rx="8" fill="${pri}" stroke="rgba(0,0,0,0.28)" stroke-width="1.5"/>
+              <!-- Side Runner Stopper (Accent) -->
+              <rect x="4" y="23" width="6" height="4" rx="2" fill="${acc}"/>
+              <!-- Inner Box Peek Line (Secondary) -->
+              <rect x="12" y="6" width="136" height="40" rx="6" fill="${sec}" opacity="0.85"/>
+              <!-- Front Facade (Primary) -->
+              <rect x="14" y="8" width="132" height="36" rx="6" fill="${pri}" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>
+              <!-- Bolt Recesses -->
+              <circle cx="30" cy="26" r="3.2" fill="${sec}" opacity="0.55"/>
+              <circle cx="130" cy="26" r="3.2" fill="${sec}" opacity="0.55"/>
+              <!-- Key Lock Gear Body (Secondary) -->
+              <circle cx="80" cy="26" r="11" fill="${sec}"/>
+              <!-- Key Cap (Primary or Category Color) -->
+              <rect x="70" y="22" width="20" height="8" rx="4" fill="${useCatTags ? tagColor : pri}" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+              <!-- Slide-in Label -->
+              <rect x="24" y="34" width="38" height="7" rx="3" fill="#ffffff" stroke="rgba(0,0,0,0.15)" stroke-width="0.6"/>
+              <text x="43" y="39.5" font-family="monospace" font-size="4.8" font-weight="bold" fill="#111" text-anchor="middle">${labelTxt}</text>
+            </g>
+          `;
+        }
+      }
+
+      document.getElementById('closetSvgContainer').innerHTML = `
+        <svg viewBox="0 0 430 265" width="100%" height="auto" style="background:#191c22; border-radius:10px; display:block;">
+          <!-- Closet Wall & Wire/Wood Shelf -->
+          <rect x="0" y="0" width="430" height="265" fill="#181b20"/>
+          <!-- Top Handles on both stacks (Secondary) -->
+          <rect x="130" y="45" width="50" height="14" rx="4" fill="${sec}"/>
+          <rect x="315" y="45" width="50" height="14" rx="4" fill="${sec}"/>
+          <!-- Gridfinity Roofs (Primary) -->
+          <rect x="82" y="57" width="146" height="5" rx="2" fill="${pri}"/>
+          <rect x="267" y="57" width="146" height="5" rx="2" fill="${pri}"/>
+          ${closetModules}
+          <!-- Closet Shelf Plank -->
+          <rect x="20" y="236" width="390" height="14" rx="3" fill="#3a3f4b"/>
+          <text x="215" y="259" font-family="sans-serif" font-size="10" fill="#8b92a0" text-anchor="middle">6× S3/S4 1F Bolt Drawers stacked on Closet Shelf</text>
+        </svg>
+      `;
+
+      // 2. WFH Office Scene SVG (Warm wood credenza/desk with L & XL Drawers + Sustainer + Open Drawer showing inner box & bins)
+      document.getElementById('officeSvgContainer').innerHTML = `
+        <svg viewBox="0 0 430 265" width="100%" height="auto" style="background:#23211f; border-radius:10px; display:block;">
+          <!-- Warm WFH Office Wall -->
+          <rect x="0" y="0" width="430" height="265" fill="#262422"/>
+          <!-- Acoustic Wood Slat Accent on Left -->
+          <g opacity="0.35">
+            <rect x="18" y="0" width="8" height="236" fill="#8c6239"/>
+            <rect x="32" y="0" width="8" height="236" fill="#8c6239"/>
+            <rect x="46" y="0" width="8" height="236" fill="#8c6239"/>
+            <rect x="60" y="0" width="8" height="236" fill="#8c6239"/>
+          </g>
+
+          <!-- Left Stack: L Sustainer on top of two L 2F Drawers -->
+          <g transform="translate(82, 54)">
+            <!-- Top Sustainer Case (Primary shell + Secondary latches) -->
+            <rect x="0" y="0" width="148" height="56" rx="7" fill="${pri}" stroke="rgba(0,0,0,0.25)" stroke-width="1.5"/>
+            <line x1="0" y1="14" x2="148" y2="14" stroke="rgba(0,0,0,0.22)" stroke-width="1.2"/>
+            <!-- Sustainer Front Latches (Secondary) -->
+            <rect x="28" y="10" width="22" height="24" rx="3" fill="${sec}"/>
+            <rect x="98" y="10" width="22" height="24" rx="3" fill="${sec}"/>
+            <!-- Middle L 2F Drawer -->
+            <rect x="0" y="59" width="148" height="58" rx="7" fill="${pri}" stroke="rgba(0,0,0,0.25)" stroke-width="1.5"/>
+            <rect x="8" y="65" width="132" height="46" rx="5" fill="${pri}" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>
+            <circle cx="74" cy="88" r="10" fill="${sec}"/>
+            <rect x="65" y="84" width="18" height="8" rx="4" fill="${pri}" stroke="rgba(0,0,0,0.2)"/>
+            <rect x="2" y="86" width="5" height="3.5" rx="1.5" fill="${acc}"/>
+            <!-- Bottom L 2F Drawer -->
+            <rect x="0" y="120" width="148" height="60" rx="7" fill="${pri}" stroke="rgba(0,0,0,0.25)" stroke-width="1.5"/>
+            <rect x="8" y="126" width="132" height="48" rx="5" fill="${pri}" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>
+            <circle cx="74" cy="150" r="10" fill="${sec}"/>
+            <rect x="65" y="146" width="18" height="8" rx="4" fill="${pri}" stroke="rgba(0,0,0,0.2)"/>
+            <rect x="2" y="148" width="5" height="3.5" rx="1.5" fill="${acc}"/>
+          </g>
+
+          <!-- Right Stack: Open Isometric Drawer Preview showing Secondary Inner Box & Accent Gridfinity Bins -->
+          <g transform="translate(248, 72)">
+            <!-- Flat Table Roof on top (Primary) -->
+            <rect x="0" y="0" width="154" height="10" rx="4" fill="${pri}" stroke="rgba(0,0,0,0.2)"/>
+            <!-- Upper Module Shell -->
+            <rect x="0" y="12" width="154" height="66" rx="7" fill="${pri}" stroke="rgba(0,0,0,0.25)" stroke-width="1.5"/>
+            <!-- Pulled-out Inner Box (Secondary) -->
+            <rect x="10" y="20" width="134" height="50" rx="4" fill="${sec}"/>
+            <!-- Gridfinity Bins inside Drawer (Accent) -->
+            <rect x="16" y="25" width="38" height="40" rx="3" fill="${acc}" opacity="0.92"/>
+            <rect x="58" y="25" width="38" height="40" rx="3" fill="${acc}" opacity="0.92"/>
+            <rect x="100" y="25" width="38" height="40" rx="3" fill="${acc}" opacity="0.92"/>
+            <!-- Lower XL 4F Deep Module -->
+            <rect x="0" y="82" width="154" height="80" rx="7" fill="${pri}" stroke="rgba(0,0,0,0.25)" stroke-width="1.5"/>
+            <rect x="8" y="90" width="138" height="64" rx="5" fill="${pri}" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>
+            <circle cx="77" cy="122" r="11" fill="${sec}"/>
+            <rect x="67" y="118" width="20" height="8" rx="4" fill="${pri}" stroke="rgba(0,0,0,0.2)"/>
+            <rect x="2" y="120" width="5" height="3.5" rx="1.5" fill="${acc}"/>
+          </g>
+
+          <!-- Warm Oak Desk / Credenza Surface -->
+          <rect x="15" y="236" width="400" height="14" rx="3" fill="#9c7044"/>
+          <text x="215" y="259" font-family="sans-serif" font-size="10" fill="#b8afa6" text-anchor="middle">Larger L/XL Modules &amp; Sustainers on WFH Office Credenza</text>
+        </svg>
+      `;
+    }
+
+    function renderCompareTray() {
+      const container = document.getElementById('compareCards');
+      container.innerHTML = currentState.pinnedCombos.map((combo, idx) => {
+        const p = getFilament(combo.primary);
+        const s = getFilament(combo.secondary);
+        const a = getFilament(combo.accent);
+        return `
+          <div class="compare-item">
+            <div class="preset-swatches" style="height:34px;">
+              <span style="width:62%; background:${p.hex}"></span>
+              <span style="width:28%; background:${s.hex}"></span>
+              <span style="width:10%; background:${a.hex}"></span>
+            </div>
+            <div style="font-size:13px; font-weight:700;">${combo.name}</div>
+            <div style="font-size:11.5px; color:var(--text-muted); line-height:1.45;">
+              <div><strong>Pri:</strong> ${p.name} (<code>${p.id}</code>)</div>
+              <div><strong>Sec:</strong> ${s.name} (<code>${s.id}</code>)</div>
+              <div><strong>Acc:</strong> ${a.name} (<code>${a.id}</code>)</div>
+            </div>
+            <div style="display:flex; gap:6px; margin-top:auto;">
+              <button class="btn" data-load-idx="${idx}" style="flex:1; justify-content:center; padding:6px; font-size:12px;">
+                Preview on Render
+              </button>
+              <button class="btn" data-del-idx="${idx}" style="padding:6px 9px; font-size:12px;" title="Remove">
+                ✕
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.querySelectorAll('[data-load-idx]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const c = currentState.pinnedCombos[parseInt(btn.dataset.loadIdx, 10)];
+          if (c) {
+            currentState.primary = c.primary;
+            currentState.secondary = c.secondary;
+            currentState.accent = c.accent;
+            currentState.activePresetId = null;
+            refreshAll();
+          }
+        });
+      });
+
+      container.querySelectorAll('[data-del-idx]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentState.pinnedCombos.splice(parseInt(btn.dataset.delIdx, 10), 1);
+          renderCompareTray();
+        });
+      });
+    }
+
+    function updateSpoolCalculator() {
+      const qSmall = Math.max(0, parseInt(document.getElementById('qtySmall').value || '0', 10));
+      const qLarge = Math.max(0, parseInt(document.getElementById('qtyLarge').value || '0', 10));
+      const qBins = Math.max(0, parseInt(document.getElementById('qtyBins').value || '0', 10));
+
+      const totalModuleWeight = qSmall * 380 + qLarge * 780;
+      const priGrams = Math.round(totalModuleWeight * 0.65);
+      const secGrams = Math.round(totalModuleWeight * 0.30);
+      const accGrams = Math.round(totalModuleWeight * 0.05 + qBins * 120);
+
+      const p = getFilament(currentState.primary);
+      const s = getFilament(currentState.secondary);
+      const a = getFilament(currentState.accent);
+
+      const spoolsPri = Math.max(1, Math.ceil(priGrams / 950));
+      const spoolsSec = Math.max(1, Math.ceil(secGrams / 950));
+      const spoolsAcc = Math.max(1, Math.ceil(accGrams / 950));
+
+      document.getElementById('spoolSummary').innerHTML = `
+        <div class="spool-line">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="swatch-chip" style="background:${p.hex}"></span>
+            <div>
+              <strong>Primary: ${p.name}</strong> (<code>${p.material} ${p.id}</code>)
+              <div style="font-size:11px; color:var(--text-muted);">Est. ${priGrams}g for shells, roofs &amp; facades</div>
+            </div>
+          </div>
+          <strong>${priGrams === 0 ? 0 : spoolsPri} × 1kg Spool${spoolsPri > 1 ? 's' : ''}</strong>
+        </div>
+
+        <div class="spool-line">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="swatch-chip" style="background:${s.hex}"></span>
+            <div>
+              <strong>Secondary: ${s.name}</strong> (<code>${s.material} ${s.id}</code>)
+              <div style="font-size:11px; color:var(--text-muted);">Est. ${secGrams}g for inner drawer boxes, handles &amp; locks</div>
+            </div>
+          </div>
+          <strong>${secGrams === 0 ? 0 : spoolsSec} × 1kg Spool${spoolsSec > 1 ? 's' : ''}</strong>
+        </div>
+
+        <div class="spool-line">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="swatch-chip" style="background:${a.hex}"></span>
+            <div>
+              <strong>Accent: ${a.name}</strong> (<code>${a.material} ${a.id}</code>)
+              <div style="font-size:11px; color:var(--text-muted);">Est. ${accGrams}g for springs, latches, stoppers &amp; ${qBins} bin sets</div>
+            </div>
+          </div>
+          <strong>${accGrams === 0 ? 0 : spoolsAcc} × 1kg Spool${spoolsAcc > 1 ? 's' : ''}</strong>
+        </div>
+      `;
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

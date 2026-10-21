@@ -1,0 +1,10 @@
+# Local configuration
+.env
+
+# Raw extracted PDF assets from the commercial USSA VAULT archive
+assets/
+
+# OS & Python artifacts
+.DS_Store
+__pycache__/
+*.pyc

@@ -26,6 +26,20 @@ An interactive color visualizer, real-time 3D render color-swapper, and filament
 
 ---
 
+## Filament Reference Catalogs (`filaments/`)
+
+Each supported filament brand is documented in its own Markdown table under [`filaments/`](filaments/) for easy reference and community pull requests:
+
+* **[Bambu Lab (`filaments/bambulab.md`)](filaments/bambulab.md)** — 68 colors (`PLA Basic`, `PLA Matte`, `PETG Basic`)
+* **[Polymaker (`filaments/polymaker.md`)](filaments/polymaker.md)** — 28 colors (`PolyTerra / Panchroma Matte`, `PolyLite PLA`, `PolyLite PETG`)
+* **[Prusament (`filaments/prusament.md`)](filaments/prusament.md)** — 22 colors (`Prusament PLA`, `PLA Matte`, `Prusament PETG`)
+* **[eSUN (`filaments/esun.md`)](filaments/esun.md)** — 21 colors (`PLA+`, `ePLA-Matte`, `PETG`)
+* **[SUNLU (`filaments/sunlu.md`)](filaments/sunlu.md)** — 20 colors (`PLA+`, `PLA Matte`, `PETG`)
+* **[ELEGOO (`filaments/elegoo.md`)](filaments/elegoo.md)** — 20 colors (`Rapid PLA+`, `PLA Matte`, `Rapid PETG`)
+* **[Overture (`filaments/overture.md`)](filaments/overture.md)** — 20 colors (`PLA+`, `Matte PLA`, `PETG`)
+
+---
+
 ## Quick Start
 
 ### 1. Open the Visualizer Directly

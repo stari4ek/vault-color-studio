@@ -13,7 +13,6 @@ The raw USSA VAULT STL & PDF archive is kept separate and referenced via the `VA
 vault-color-studio/
 ├── AGENTS.md                  # Project & domain guide for engineers and AI agents
 ├── README.md                  # User-facing setup & publishing documentation
-├── bambulab-filaments.md      # Reference catalog of 68 Bambu Lab filaments (PLA Basic, PLA Matte, PETG Basic)
 ├── LICENSE                    # MIT License for studio code
 ├── .env.example               # Template for VAULT_USSA_DIR configuration
 ├── .env                       # Local untracked config (VAULT_USSA_DIR="/path/to/vault-ussa")
@@ -21,6 +20,7 @@ vault-color-studio/
 ├── index.html                 # Single-page app (works directly via file:// or GitHub Pages)
 ├── generate_renders.py        # Python (PIL + NumPy) pipeline reading VAULT_USSA_DIR to build masks & renders-data.js
 ├── renders-data.js            # Base64-encoded WebP renders + RGB zone masks (prevents file:// Canvas CORS errors)
+├── filaments/                 # Brand filament reference tables (bambulab.md, polymaker.md, prusament.md, esun.md, sunlu.md, elegoo.md, overture.md)
 ├── renders/                   # Cropped PNG renders and *-mask.png RGB zone maps
 └── assets/                    # Untracked raw extracted PNGs from $VAULT_USSA_DIR PDFs & Naming diagrams
 ```

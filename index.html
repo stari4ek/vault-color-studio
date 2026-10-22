@@ -181,38 +181,38 @@
 
     .presets-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 8px;
     }
 
     .preset-card {
       background: var(--bg-card);
       border: 1.5px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 13px 14px;
+      border-radius: 10px;
+      padding: 8px 10px;
       cursor: pointer;
       text-align: left;
-      transition: all 0.16s ease;
+      transition: all 0.14s ease;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
       position: relative;
+      min-width: 0;
     }
 
     .preset-card:hover {
-      transform: translateY(-2px);
       border-color: var(--text-muted);
     }
 
     .preset-card.active {
       border-color: var(--accent-ui);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-ui) 25%, transparent);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent-ui) 28%, transparent);
     }
 
     .preset-swatches {
       display: flex;
-      height: 28px;
-      border-radius: 6px;
+      height: 18px;
+      border-radius: 5px;
       overflow: hidden;
       border: 1px solid rgba(128, 128, 128, 0.25);
       forced-color-adjust: none;
@@ -222,30 +222,37 @@
       height: 100%;
     }
 
-    .preset-tag {
-      font-size: 10px;
-      font-family: var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: var(--bg-subtle);
-      color: var(--text-muted);
-      align-self: flex-start;
+    .preset-head-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      min-width: 0;
     }
 
     .preset-name {
-      font-size: 14px;
+      font-size: 12.5px;
       font-weight: 600;
       color: var(--text);
       margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preset-badge-mini {
+      font-size: 10px;
+      flex-shrink: 0;
+      opacity: 0.85;
     }
 
     .preset-desc {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       margin: 0;
-      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Studio Workspace: Left Controls + Right Visualizer */
@@ -465,7 +472,6 @@
 
     .swatch-btn:hover {
       border-color: var(--text-muted);
-      transform: translateY(-1px);
     }
 
     .swatch-btn.selected {
@@ -823,12 +829,12 @@
 
     <!-- 1. Curated Color Presets -->
     <section>
-      <div class="section-header">
-        <div>
+      <div class="section-header" style="flex-wrap: nowrap;">
+        <div style="flex: 1; min-width: 0;">
           <h2 class="section-title">1. Curated Color Presets (Click to Preview on Renders)</h2>
-          <p class="section-subtitle">Start with the official USSA promo palette, the 6 colorways from the USSA promo video, or curated studio &amp; multi-brand setups.</p>
+          <p class="section-subtitle" id="presetSubtitle" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Start with the official USSA promo palette, the 6 colorways from the USSA promo video, or curated studio &amp; multi-brand setups.</p>
         </div>
-        <div class="filter-tabs" id="presetTabs" style="margin-bottom: 0;">
+        <div class="filter-tabs" id="presetTabs" style="margin-bottom: 0; flex-shrink: 0;">
           <button class="filter-tab active" data-preset-cat="ALL">All Presets (18)</button>
           <button class="filter-tab" data-preset-cat="video">🎬 Promo Video (7)</button>
           <button class="filter-tab" data-preset-cat="studio">🏠 Studio &amp; Workshop (8)</button>
@@ -1884,26 +1890,43 @@
       updateSpoolCalculator();
     }
 
+    function updatePresetSubtitle(preset) {
+      const subEl = document.getElementById('presetSubtitle');
+      if (!subEl) return;
+      if (preset) {
+        subEl.innerHTML = `<strong style="color:var(--text);">${preset.name}</strong> <span style="opacity:0.75;">(${preset.tag})</span> — ${preset.desc}`;
+      } else {
+        subEl.textContent = 'Custom color combination active — click any preset below to load, or hover a card to read its description.';
+      }
+    }
+
     function renderPresets() {
       const grid = document.getElementById('presetsGrid');
       const filteredPresets = PRESET_PROSPECTS.filter(pr =>
         currentState.presetCategory === 'ALL' || pr.category === 'both' || pr.category === currentState.presetCategory
       );
+      const activePreset = PRESET_PROSPECTS.find(pr => pr.id === currentState.activePresetId) || null;
+      updatePresetSubtitle(activePreset);
+
       grid.innerHTML = filteredPresets.map(preset => {
         const p = getFilament(preset.primary);
         const s = getFilament(preset.secondary);
         const a = getFilament(preset.accent);
         const isActive = currentState.activePresetId === preset.id;
+        const catIcon = preset.category === 'video' || preset.category === 'both' ? '🎬' : (preset.category === 'brands' ? '🏷️' : '🏠');
+        const tooltip = `${preset.name} (${preset.tag})\n${preset.desc}\nPrimary: ${p.brand} ${p.name} · Secondary: ${s.brand} ${s.name} · Accent: ${a.brand} ${a.name}`;
         return `
-          <button class="preset-card ${isActive ? 'active' : ''}" data-preset="${preset.id}">
+          <button class="preset-card ${isActive ? 'active' : ''}" data-preset="${preset.id}" title="${tooltip}">
             <div class="preset-swatches">
-              <span style="width:62%; background:${p.hex}" title="Primary: ${p.brand} ${p.name}"></span>
-              <span style="width:28%; background:${s.hex}" title="Secondary: ${s.brand} ${s.name}"></span>
-              <span style="width:10%; background:${a.hex}" title="Accent: ${a.brand} ${a.name}"></span>
+              <span style="width:62%; background:${p.hex}"></span>
+              <span style="width:28%; background:${s.hex}"></span>
+              <span style="width:10%; background:${a.hex}"></span>
             </div>
-            <span class="preset-tag">${preset.tag}</span>
-            <h4 class="preset-name">${preset.name}</h4>
-            <p class="preset-desc">${preset.desc}</p>
+            <div class="preset-head-row">
+              <h4 class="preset-name">${preset.name}</h4>
+              <span class="preset-badge-mini">${catIcon}</span>
+            </div>
+            <p class="preset-desc">${p.name} · ${s.name} · ${a.name}</p>
           </button>
         `;
       }).join('');
@@ -1912,6 +1935,14 @@
         btn.addEventListener('click', () => {
           const preset = PRESET_PROSPECTS.find(pr => pr.id === btn.dataset.preset);
           if (preset) applyPreset(preset);
+        });
+        btn.addEventListener('mouseenter', () => {
+          const preset = PRESET_PROSPECTS.find(pr => pr.id === btn.dataset.preset);
+          if (preset) updatePresetSubtitle(preset);
+        });
+        btn.addEventListener('mouseleave', () => {
+          const cur = PRESET_PROSPECTS.find(pr => pr.id === currentState.activePresetId) || null;
+          updatePresetSubtitle(cur);
         });
       });
     }

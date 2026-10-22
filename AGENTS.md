@@ -1,6 +1,6 @@
-# AGENTS.md — USSA "VAULT" Bambu Lab Color Studio & Domain Guide
+# AGENTS.md — USSA "VAULT" Filament & Color Design Studio Guide
 
-This repository (`vault-color-studio`) contains the interactive **Bambu Lab Filament & Color Design Prospect Studio** for the **VAULT by USSA** modular 3D-printed storage system (`https://www.ussadesign.com/pages/vault?view=vault-model`).
+This repository (`vault-color-studio`) contains the interactive **Filament & Color Design Studio** for the **VAULT by USSA** modular 3D-printed storage system (`https://www.ussadesign.com/pages/vault?view=vault-model`).
 
 The raw USSA VAULT STL & PDF archive is kept separate and referenced via the `VAULT_USSA_DIR` environment variable or local `.env` file.
 

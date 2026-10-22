@@ -1,6 +1,6 @@
-# VAULT × Bambu Lab — Interactive Color & Material Design Studio
+# VAULT — Filament & Color Design Studio
 
-An interactive color visualizer, real-time 3D render color-swapper, and filament spool calculator for the **[VAULT by USSA](https://www.ussadesign.com/pages/vault?view=vault-model)** modular 3D-printed storage system, tailored for **Bambu Lab** filaments (`PLA Basic`, `PLA Matte`, and `PETG Basic` — 68 official colors).
+An interactive color visualizer, real-time 3D render color-swapper, and filament spool calculator for the **[VAULT by USSA](https://www.ussadesign.com/pages/vault?view=vault-model)** modular 3D-printed storage system, featuring **Bambu Lab** filaments (`PLA Basic`, `PLA Matte`, and `PETG Basic` — 68 official colors).
 
 👉 **[Launch Interactive Studio (GitHub Pages)](https://stari4ek.github.io/vault-color-studio/)**
 
@@ -8,7 +8,7 @@ An interactive color visualizer, real-time 3D render color-swapper, and filament
 
 ## Features
 
-1. **14 Curated Design Prospects (including 6 Promo Video Colorways)**:
+1. **14 Curated Color Presets (including 6 Promo Video Colorways)**:
    * **Official USSA Promo**: `PLA Basic Light Gray (10104)` + `Dark Gray (10105)` + `Orange (10300)`
    * **6 Promo Video Colorways**: **Apple Green & Orange** (`11502` + `10100` + `10300`), **Sakura Pink & White** (`11201`), **Indigo Purple & White** (`10701`), **Olive Sage & White** (`11501`), **Dark Blue & White** (`11602`), and **Studio Gray & Dark** (`11102`)
    * **Warm Studio / WFH Desk**: `PLA Matte Bone White (11103)` + `Charcoal (11101)` + `Terracotta (11203)`

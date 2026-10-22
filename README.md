@@ -1,6 +1,6 @@
 # VAULT — Filament & Color Design Studio
 
-An interactive color visualizer, real-time 3D render color-swapper, and filament spool calculator for the **[VAULT by USSA](https://www.ussadesign.com/pages/vault?view=vault-model)** modular 3D-printed storage system, featuring **Bambu Lab** filaments (`PLA Basic`, `PLA Matte`, and `PETG Basic` — 68 official colors).
+An interactive color visualizer, real-time 3D render color-swapper, and filament spool calculator for the **[VAULT by USSA](https://www.ussadesign.com/pages/vault?view=vault-model)** modular 3D-printed storage system, featuring **199 filaments across 7 popular brands**: **Bambu Lab** (68), **Polymaker** (28), **Prusament** (22), **eSUN** (21), **SUNLU** (20), **ELEGOO** (20), and **Overture** (20).
 
 👉 **[Launch Interactive Studio (GitHub Pages)](https://stari4ek.github.io/vault-color-studio/)**
 
@@ -8,20 +8,18 @@ An interactive color visualizer, real-time 3D render color-swapper, and filament
 
 ## Features
 
-1. **14 Curated Color Presets (including 6 Promo Video Colorways)**:
-   * **Official USSA Promo**: `PLA Basic Light Gray (10104)` + `Dark Gray (10105)` + `Orange (10300)`
+1. **18 Curated Color Presets (Promo Video, Studio/Workshop & Multi-Brand)**:
+   * **Official USSA Promo**: `Bambu Lab PLA Basic Light Gray (10104)` + `Dark Gray (10105)` + `Orange (10300)`
    * **6 Promo Video Colorways**: **Apple Green & Orange** (`11502` + `10100` + `10300`), **Sakura Pink & White** (`11201`), **Indigo Purple & White** (`10701`), **Olive Sage & White** (`11501`), **Dark Blue & White** (`11602`), and **Studio Gray & Dark** (`11102`)
-   * **Warm Studio / WFH Desk**: `PLA Matte Bone White (11103)` + `Charcoal (11101)` + `Terracotta (11203)`
-   * **Concrete & Amber**: `PLA Matte Ash Gray (11102)` + `Charcoal (11101)` + `Sunflower Yellow (10402)`
-   * **Stealth + Bright Trays**: `PLA Matte Charcoal (11101)` + `Light Gray (10104)` inner drawer trays (makes black M3/M4 bolts easy to spot) + `Orange (10300)`
-   * Plus **Festool / Sys-Green**, **Botanical & Brass**, **Desert Sand & Black**, and **Machinist Blue Slate**.
+   * **Studio & Workshop Setups**: **Warm Studio / WFH Desk**, **Concrete & Amber**, **Stealth + Bright Trays**, **Festool / Sys-Green**, **Botanical & Brass**, **Desert Sand & Black**, and **Machinist Blue Slate**.
+   * **Multi-Brand Editions**: **Prusa Signature Edition** (`Prusament Galaxy Black` + `Anthracite Grey` + `Prusa Orange PETG`), **PolyTerra Earth Studio** (`Polymaker`), **eSUN Tactical & Peak**, and **Space Grey & Fire Red** (`ELEGOO + eSUN`).
 2. **Real-Time 3D Render Color-Swapper**:
    * Recolors all 3 VAULT part zones (**Primary ~65%**, **Secondary ~30%**, **Accent ~5%**) across 10 official diagrams & studio renders while preserving ambient occlusion shadows and bevel highlights.
    * Includes a **Before / After Split Slider**, **Hold to See Original Promo**, and **Invert Primary / Secondary**.
    * Works both hosted on GitHub Pages and offline via `file://` (double-clicking `index.html`) with zero CORS/canvas tainting.
 3. **Shareable Links, PNG Export & Shopping List Copy**:
-   * **🔗 Share Combo Link**: Automatically encodes your Primary, Secondary, Accent, and active render in the URL (`?p=10104&s=10105&a=10300`) so you can share colorways on Reddit, MakerWorld, or Discord.
-   * **📷 Save Render PNG**: Downloads the recolored 3D render with a bottom specification legend bar showing the exact Bambu Lab filament names & SKUs.
+   * **🔗 Share Combo Link**: Automatically encodes your Primary, Secondary, Accent, and active render in the URL (`?p=10104&s=10105&a=10300`) so you can share colorways on Reddit, MakerWorld, Printables, or Discord.
+   * **📷 Save Render PNG**: Downloads the recolored 3D render with a bottom specification legend bar showing the exact filament brand, material, color name & SKU.
    * **📋 Copy Shopping List**: One-click clipboard copy of your filament SKUs, gram weights, and 1kg spool counts.
 4. **Closet Shelf vs. WFH Office Stack Visualizer**:
    * Side-by-side vector preview of compact `S3`/`S4` closet bolt drawers (with optional fastener category color tags) next to larger `L`/`XL` modules and top-opening Sustainers on a home-office credenza.

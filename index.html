@@ -361,7 +361,58 @@
       color: var(--text-muted);
     }
 
-    /* Filament Swatch Grid */
+    /* Filament Brand & Material Filters */
+    .brand-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+
+    .brand-pill {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .brand-pill:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    .brand-pill.active {
+      background: var(--accent-ui);
+      border-color: var(--accent-ui);
+      color: #fff;
+    }
+
+    .swatch-search-wrap {
+      margin-bottom: 8px;
+    }
+
+    .swatch-search {
+      width: 100%;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font: inherit;
+      font-size: 12px;
+    }
+
+    .swatch-search:focus {
+      outline: 2px solid var(--accent-ui);
+      border-color: transparent;
+    }
+
     .filter-tabs {
       display: flex;
       gap: 6px;
@@ -775,12 +826,13 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">1. Curated Color Presets (Click to Preview on Renders)</h2>
-          <p class="section-subtitle">Start with the official USSA promo palette, the 6 colorways from the USSA promo video, or curated studio &amp; workshop setups.</p>
+          <p class="section-subtitle">Start with the official USSA promo palette, the 6 colorways from the USSA promo video, or curated studio &amp; multi-brand setups.</p>
         </div>
         <div class="filter-tabs" id="presetTabs" style="margin-bottom: 0;">
-          <button class="filter-tab active" data-preset-cat="ALL">All Presets (14)</button>
+          <button class="filter-tab active" data-preset-cat="ALL">All Presets (18)</button>
           <button class="filter-tab" data-preset-cat="video">🎬 Promo Video (7)</button>
           <button class="filter-tab" data-preset-cat="studio">🏠 Studio &amp; Workshop (8)</button>
+          <button class="filter-tab" data-preset-cat="brands">🏷️ Multi-Brand (4)</button>
         </div>
       </div>
       <div class="presets-grid" id="presetsGrid"></div>
@@ -794,7 +846,7 @@
         <div class="section-header" style="margin-bottom: 10px;">
           <div>
             <h3 class="section-title" style="font-size: 16px;">2. Customize by VAULT Part Zone</h3>
-            <p class="section-subtitle">Click a zone below, then pick a filament swatch.</p>
+            <p class="section-subtitle">Click a zone below, then filter by brand or material to pick a swatch.</p>
           </div>
         </div>
 
@@ -809,7 +861,7 @@
             </div>
             <div class="zone-selected-spool">
               <span class="spool-name" id="name-primary">Light Gray</span>
-              <span class="spool-code" id="code-primary">PLA Basic · 10104</span>
+              <span class="spool-code" id="code-primary">Bambu Lab · PLA Basic · 10104</span>
             </div>
           </div>
 
@@ -823,7 +875,7 @@
             </div>
             <div class="zone-selected-spool">
               <span class="spool-name" id="name-secondary">Dark Gray</span>
-              <span class="spool-code" id="code-secondary">PLA Basic · 10105</span>
+              <span class="spool-code" id="code-secondary">Bambu Lab · PLA Basic · 10105</span>
             </div>
           </div>
 
@@ -837,22 +889,37 @@
             </div>
             <div class="zone-selected-spool">
               <span class="spool-name" id="name-accent">Orange</span>
-              <span class="spool-code" id="code-accent">PLA Basic · 10300</span>
+              <span class="spool-code" id="code-accent">Bambu Lab · PLA Basic · 10300</span>
             </div>
           </div>
         </div>
 
+        <div class="brand-tabs" id="brandTabs">
+          <button class="brand-pill active" data-brand="Bambu Lab">Bambu Lab (68)</button>
+          <button class="brand-pill" data-brand="Polymaker">Polymaker (28)</button>
+          <button class="brand-pill" data-brand="Prusament">Prusament (22)</button>
+          <button class="brand-pill" data-brand="eSUN">eSUN (21)</button>
+          <button class="brand-pill" data-brand="SUNLU">SUNLU (20)</button>
+          <button class="brand-pill" data-brand="ELEGOO">ELEGOO (20)</button>
+          <button class="brand-pill" data-brand="Overture">Overture (20)</button>
+          <button class="brand-pill" data-brand="ALL">All Brands (199)</button>
+        </div>
+
+        <div class="swatch-search-wrap">
+          <input type="search" class="swatch-search" id="swatchSearch" placeholder="🔍 Search color name, SKU, hex, or brand..." />
+        </div>
+
         <div class="filter-tabs" id="materialTabs">
           <button class="filter-tab active" data-mat="ALL">All (68)</button>
-          <button class="filter-tab" data-mat="PLA Basic">PLA Basic (30)</button>
+          <button class="filter-tab" data-mat="PLA Basic">PLA / PLA+ (30)</button>
           <button class="filter-tab" data-mat="PLA Matte">PLA Matte (25)</button>
-          <button class="filter-tab" data-mat="PETG Basic">PETG Basic (13)</button>
+          <button class="filter-tab" data-mat="PETG">PETG (13)</button>
         </div>
 
         <div class="swatches-grid" id="swatchesGrid"></div>
 
         <div class="material-warning" id="matteWarning">
-          <strong>Mechanical Part Tip:</strong> You selected <strong>PLA Matte</strong> for a mechanical zone. While PLA Matte looks incredible on outer shells and facades, USSA recommends <strong>Bambu PLA Basic</strong> or <strong>PETG Basic</strong> for <code>Springs.stl</code>, <code>Latch.stl</code>, and <code>Runner Slides</code> so they don't creep or bind.
+          <strong>Mechanical Part Tip:</strong> You selected <strong>Matte PLA</strong> for a mechanical zone. While Matte PLA looks incredible on outer shells and facades, USSA recommends standard <strong>PLA / PLA+</strong> or <strong>PETG</strong> for <code>Springs.stl</code>, <code>Latch.stl</code>, and <code>Runner Slides</code> so they don't creep or bind.
         </div>
       </div>
 
@@ -931,21 +998,21 @@
             <div class="recipe-swatch" id="rec-swatch-primary"></div>
             <div>
               <div style="font-size:11px; color:var(--text-muted);">PRIMARY (SHELL / FACADE / ROOF)</div>
-              <div style="font-size:13px; font-weight:700;" id="rec-text-primary">Bambu PLA Basic · Light Gray (10104)</div>
+              <div style="font-size:13px; font-weight:700;" id="rec-text-primary">Bambu Lab PLA Basic · Light Gray (10104)</div>
             </div>
           </div>
           <div class="recipe-pill">
             <div class="recipe-swatch" id="rec-swatch-secondary"></div>
             <div>
               <div style="font-size:11px; color:var(--text-muted);">SECONDARY (INNER BOX / LOCK / HANDLE)</div>
-              <div style="font-size:13px; font-weight:700;" id="rec-text-secondary">Bambu PLA Basic · Dark Gray (10105)</div>
+              <div style="font-size:13px; font-weight:700;" id="rec-text-secondary">Bambu Lab PLA Basic · Dark Gray (10105)</div>
             </div>
           </div>
           <div class="recipe-pill">
             <div class="recipe-swatch" id="rec-swatch-accent"></div>
             <div>
               <div style="font-size:11px; color:var(--text-muted);">ACCENT (SPRINGS / LATCH / STOPPERS / BINS)</div>
-              <div style="font-size:13px; font-weight:700;" id="rec-text-accent">Bambu PLA Basic · Orange (10300)</div>
+              <div style="font-size:13px; font-weight:700;" id="rec-text-accent">Bambu Lab PLA Basic · Orange (10300)</div>
             </div>
           </div>
         </div>
@@ -968,10 +1035,10 @@
       <div class="panel">
         <div class="section-header">
           <div>
-            <h3 class="section-title" style="font-size: 16px;">4. Bambu Lab Spool &amp; Weight Estimator</h3>
+            <h3 class="section-title" style="font-size: 16px;">4. Filament Spool &amp; Weight Estimator</h3>
             <p class="section-subtitle">Estimate how many 1kg spools of your chosen colors you need to order.</p>
           </div>
-          <button class="btn" id="copyShoppingListBtn" title="Copy formatted Bambu Lab filament shopping list to clipboard">
+          <button class="btn" id="copyShoppingListBtn" title="Copy formatted filament shopping list to clipboard">
             <span>📋 Copy Shopping List</span>
           </button>
         </div>
@@ -1082,8 +1149,173 @@
       { id: '30503', name: 'Pine Green (PETG)', material: 'PETG Basic', hex: '#034638', note: 'Deep British racing / pine green' },
       { id: '30603', name: 'Reflex Blue (PETG)', material: 'PETG Basic', hex: '#001489', note: 'Deep industrial cobalt blue' },
       { id: '30604', name: 'Navy Blue (PETG)', material: 'PETG Basic', hex: '#0086D6', note: 'Bright workshop blue' },
-      { id: '30800', name: 'Dark Brown (PETG)', material: 'PETG Basic', hex: '#4F2C1D', note: 'Dark utility brown' }
+      { id: '30800', name: 'Dark Brown (PETG)', material: 'PETG Basic', hex: '#4F2C1D', note: 'Dark utility brown' },
+
+      // =======================================================================
+      // POLYMAKER (28 Colors) — PolyTerra / Panchroma Matte, PolyLite PLA & PETG
+      // =======================================================================
+      { id: 'PM-PT-COTTON', brand: 'Polymaker', name: 'Cotton White', material: 'PolyTerra Matte', hex: '#F4EFEB', note: 'Soft architectural matte white' },
+      { id: 'PM-PT-CHARCOAL', brand: 'Polymaker', name: 'Charcoal Black', material: 'PolyTerra Matte', hex: '#2F2E30', note: 'Signature low-sheen charcoal black' },
+      { id: 'PM-PT-FOSSIL', brand: 'Polymaker', name: 'Fossil Grey', material: 'PolyTerra Matte', hex: '#8A8C94', note: 'Cool stone matte grey' },
+      { id: 'PM-PT-MUTED-WHT', brand: 'Polymaker', name: 'Muted White', material: 'PolyTerra Matte', hex: '#BBADA4', note: 'Warm putty / limestone greige' },
+      { id: 'PM-PT-ARMY-GRN', brand: 'Polymaker', name: 'Army Green', material: 'PolyTerra Matte', hex: '#5F6244', note: 'Tactical olive drab matte green' },
+      { id: 'PM-PT-FOREST', brand: 'Polymaker', name: 'Forest Green', material: 'PolyTerra Matte', hex: '#385843', note: 'Deep botanical woodland green' },
+      { id: 'PM-PT-MUTED-GRN', brand: 'Polymaker', name: 'Muted Green', material: 'PolyTerra Matte', hex: '#656D60', note: 'Desaturated eucalyptus sage' },
+      { id: 'PM-PT-TERRACOTTA', brand: 'Polymaker', name: 'Muted Terracotta', material: 'PolyTerra Matte', hex: '#C06443', note: 'Warm baked clay terracotta' },
+      { id: 'PM-PT-SUNRISE', brand: 'Polymaker', name: 'Sunrise Orange', material: 'PolyTerra Matte', hex: '#F47B30', note: 'Warm studio orange' },
+      { id: 'PM-PT-SAVANNAH', brand: 'Polymaker', name: 'Savannah Yellow', material: 'PolyTerra Matte', hex: '#F3C432', note: 'Warm ochre amber yellow' },
+      { id: 'PM-PT-LAVA-RED', brand: 'Polymaker', name: 'Lava Red', material: 'PolyTerra Matte', hex: '#CC2D2B', note: 'Vibrant matte crimson' },
+      { id: 'PM-PT-SAKURA', brand: 'Polymaker', name: 'Sakura Pink', material: 'PolyTerra Matte', hex: '#E8AFC8', note: 'Pastel cherry blossom pink' },
+      { id: 'PM-PT-SAPPHIRE', brand: 'Polymaker', name: 'Sapphire Blue', material: 'PolyTerra Matte', hex: '#005A9C', note: 'Deep matte cobalt blue' },
+      { id: 'PM-PT-ARCTIC', brand: 'Polymaker', name: 'Arctic Teal', material: 'PolyTerra Matte', hex: '#59989B', note: 'Muted Nordic seafoam teal' },
+      { id: 'PM-PL-WHITE', brand: 'Polymaker', name: 'White', material: 'PolyLite PLA', hex: '#F5F6F7', note: 'Crisp structural white' },
+      { id: 'PM-PL-BLACK', brand: 'Polymaker', name: 'Black', material: 'PolyLite PLA', hex: '#1E1F21', note: 'Rigid mechanical black' },
+      { id: 'PM-PL-GREY', brand: 'Polymaker', name: 'Grey', material: 'PolyLite PLA', hex: '#8C9095', note: 'Neutral workshop mid-grey' },
+      { id: 'PM-PL-STEEL', brand: 'Polymaker', name: 'Steel Grey', material: 'PolyLite PLA', hex: '#52575D', note: 'Dark gunmetal grey' },
+      { id: 'PM-PL-ORANGE', brand: 'Polymaker', name: 'Orange', material: 'PolyLite PLA', hex: '#FF6B1A', note: 'High-vis mechanical orange' },
+      { id: 'PM-PL-RED', brand: 'Polymaker', name: 'True Red', material: 'PolyLite PLA', hex: '#D3222A', note: 'Classic tool chest red' },
+      { id: 'PM-PL-BLUE', brand: 'Polymaker', name: 'Blue', material: 'PolyLite PLA', hex: '#0062B8', note: 'Bright industrial blue' },
+      { id: 'PM-PL-OLIVE', brand: 'Polymaker', name: 'Olive Green', material: 'PolyLite PLA', hex: '#535D3A', note: 'Utility field olive' },
+      { id: 'PM-PETG-BLACK', brand: 'Polymaker', name: 'Black (PETG)', material: 'PolyLite PETG', hex: '#1B1C1E', note: 'Tough black for slides & latches' },
+      { id: 'PM-PETG-WHITE', brand: 'Polymaker', name: 'White (PETG)', material: 'PolyLite PETG', hex: '#F2F4F5', note: 'High-strength white hardware' },
+      { id: 'PM-PETG-GREY', brand: 'Polymaker', name: 'Grey (PETG)', material: 'PolyLite PETG', hex: '#83878D', note: 'Mechanical structural grey' },
+      { id: 'PM-PETG-ORANGE', brand: 'Polymaker', name: 'Orange (PETG)', material: 'PolyLite PETG', hex: '#FF6A14', note: 'Resilient orange for leaf springs' },
+      { id: 'PM-PETG-YELLOW', brand: 'Polymaker', name: 'Yellow (PETG)', material: 'PolyLite PETG', hex: '#F6C800', note: 'High-vis industrial yellow' },
+      { id: 'PM-PETG-BLUE', brand: 'Polymaker', name: 'Blue (PETG)', material: 'PolyLite PETG', hex: '#005EB8', note: 'Durable cobalt blue' },
+
+      // =======================================================================
+      // PRUSAMENT (22 Colors) — Prusament PLA, PLA Matte & PETG
+      // =======================================================================
+      { id: 'PR-PLA-GALAXY-BLK', brand: 'Prusament', name: 'Galaxy Black', material: 'PLA', hex: '#3E413E', note: 'Iconic sparkle black — hides layer lines' },
+      { id: 'PR-PLA-JET-BLK', brand: 'Prusament', name: 'Jet Black', material: 'PLA', hex: '#24292A', note: 'Deep rich solid black' },
+      { id: 'PR-PLA-VANILLA', brand: 'Prusament', name: 'Vanilla White', material: 'PLA', hex: '#F2EFE9', note: 'Soft warm cream white' },
+      { id: 'PR-PLA-GALAXY-SLV', brand: 'Prusament', name: 'Galaxy Silver', material: 'PLA', hex: '#91959A', note: 'Metallic silver with fine glitter' },
+      { id: 'PR-PLA-PEARL-MSE', brand: 'Prusament', name: 'Pearl Mouse', material: 'PLA', hex: '#7B7E78', note: 'Warm pearlescent mid-grey' },
+      { id: 'PR-PLA-ANTHRACITE', brand: 'Prusament', name: 'Anthracite Grey', material: 'PLA', hex: '#3F4647', note: 'Dark industrial slate grey' },
+      { id: 'PR-PLA-ORANGE', brand: 'Prusament', name: 'Prusa Orange', material: 'PLA', hex: '#EA5E19', note: 'Signature Prusa orange' },
+      { id: 'PR-PLA-PINEAPPLE', brand: 'Prusament', name: 'Pineapple Yellow', material: 'PLA', hex: '#EFD00B', note: 'Bright workshop yellow' },
+      { id: 'PR-PLA-SIMPLY-GRN', brand: 'Prusament', name: 'Simply Green', material: 'PLA', hex: '#70A640', note: 'Fresh grass green' },
+      { id: 'PR-PLA-OPAL-GRN', brand: 'Prusament', name: 'Opal Green', material: 'PLA', hex: '#185A4A', note: 'Deep jewel emerald green' },
+      { id: 'PR-PLA-AZURE', brand: 'Prusament', name: 'Azure Blue', material: 'PLA', hex: '#0682AC', note: 'Vibrant cerulean blue' },
+      { id: 'PR-PLA-ROYAL-BLU', brand: 'Prusament', name: 'Royal Blue', material: 'PLA', hex: '#004792', note: 'Deep classic royal blue' },
+      { id: 'PR-PLA-LIPSTICK', brand: 'Prusament', name: 'Lipstick Red', material: 'PLA', hex: '#C9242B', note: 'Vivid glossy crimson red' },
+      { id: 'PR-MAT-GALAXY-BLK', brand: 'Prusament', name: 'Matte Galaxy Black', material: 'PLA Matte', hex: '#2D2F30', note: 'Stealth matte black with subtle fleck' },
+      { id: 'PR-MAT-ASH-GREY', brand: 'Prusament', name: 'Matte Ash Grey', material: 'PLA Matte', hex: '#7A7E82', note: 'Architectural matte grey' },
+      { id: 'PR-PETG-ORANGE', brand: 'Prusament', name: 'Prusa Orange (PETG)', material: 'PETG', hex: '#EB5403', note: 'Legendary Prusa MK4/CORE One orange' },
+      { id: 'PR-PETG-GALAXY-BLK', brand: 'Prusament', name: 'Galaxy Black (PETG)', material: 'PETG', hex: '#363839', note: 'Heavy-duty sparkle black hardware' },
+      { id: 'PR-PETG-JET-BLK', brand: 'Prusament', name: 'Jet Black (PETG)', material: 'PETG', hex: '#1D2022', note: 'Tough pitch black for locks & slides' },
+      { id: 'PR-PETG-URBAN-GRY', brand: 'Prusament', name: 'Urban Grey (PETG)', material: 'PETG', hex: '#95908D', note: 'Warm concrete utility grey' },
+      { id: 'PR-PETG-CHALKY-BLU', brand: 'Prusament', name: 'Chalky Blue (PETG)', material: 'PETG', hex: '#4C728C', note: 'Muted workshop slate blue' },
+      { id: 'PR-PETG-PISTACHIO', brand: 'Prusament', name: 'Pistachio Green (PETG)', material: 'PETG', hex: '#93A682', note: 'Soft industrial sage green' },
+      { id: 'PR-PETG-CARMINE', brand: 'Prusament', name: 'Carmine Red (PETG)', material: 'PETG', hex: '#982222', note: 'Deep mechanical ruby red' },
+
+      // =======================================================================
+      // eSUN (21 Colors) — PLA+, ePLA-Matte & PETG
+      // =======================================================================
+      { id: 'ES-PLAP-COLD-WHT', brand: 'eSUN', name: 'Cold White', material: 'PLA+', hex: '#E8ECEE', note: 'Crisp high-strength cool white' },
+      { id: 'ES-PLAP-BONE-WHT', brand: 'eSUN', name: 'Bone White', material: 'PLA+', hex: '#D8CDB8', note: 'Warm travertine stone beige' },
+      { id: 'ES-PLAP-BLACK', brand: 'eSUN', name: 'Black', material: 'PLA+', hex: '#1C1D1F', note: 'Tough impact-resistant black' },
+      { id: 'ES-PLAP-GREY', brand: 'eSUN', name: 'Grey', material: 'PLA+', hex: '#80848A', note: 'Classic neutral machinery grey' },
+      { id: 'ES-PLAP-SILVER', brand: 'eSUN', name: 'Silver', material: 'PLA+', hex: '#A3A7AD', note: 'Metallic-look light silver grey' },
+      { id: 'ES-PLAP-FIRE-RED', brand: 'eSUN', name: 'Fire Engine Red', material: 'PLA+', hex: '#B82028', note: 'Famous rich toolbox red' },
+      { id: 'ES-PLAP-ORANGE', brand: 'eSUN', name: 'Orange', material: 'PLA+', hex: '#F5631A', note: 'High-strength safety orange' },
+      { id: 'ES-PLAP-YELLOW', brand: 'eSUN', name: 'Yellow', material: 'PLA+', hex: '#F2C618', note: 'DeWalt-style industrial yellow' },
+      { id: 'ES-PLAP-OLIVE', brand: 'eSUN', name: 'Olive Green', material: 'PLA+', hex: '#555B45', note: 'Military field drab olive' },
+      { id: 'ES-PLAP-PEAK-GRN', brand: 'eSUN', name: 'Peak Green', material: 'PLA+', hex: '#A1DA7C', note: 'Bright pastel pistachio green' },
+      { id: 'ES-PLAP-DARK-BLU', brand: 'eSUN', name: 'Dark Blue', material: 'PLA+', hex: '#1A3B70', note: 'Deep workshop navy blue' },
+      { id: 'ES-MAT-BLACK', brand: 'eSUN', name: 'Matte Black', material: 'PLA Matte', hex: '#2A2B2E', note: 'Low-glare charcoal black' },
+      { id: 'ES-MAT-WHITE', brand: 'eSUN', name: 'Matte Milky White', material: 'PLA Matte', hex: '#F2F0EB', note: 'Soft matte chalk white' },
+      { id: 'ES-MAT-GREY', brand: 'eSUN', name: 'Matte Dark Grey', material: 'PLA Matte', hex: '#5B5E63', note: 'Modern slate matte grey' },
+      { id: 'ES-MAT-ALMOND', brand: 'eSUN', name: 'Matte Almond Yellow', material: 'PLA Matte', hex: '#E6D2A2', note: 'Warm desert cream sand' },
+      { id: 'ES-MAT-MINT', brand: 'eSUN', name: 'Matte Mint Green', material: 'PLA Matte', hex: '#85C7B3', note: 'Pastel studio seafoam mint' },
+      { id: 'ES-MAT-NAVY', brand: 'eSUN', name: 'Matte Deep Blue', material: 'PLA Matte', hex: '#263B59', note: 'Muted denim navy matte' },
+      { id: 'ES-PETG-BLACK', brand: 'eSUN', name: 'Solid Black (PETG)', material: 'PETG', hex: '#1A1B1D', note: 'Opaque black for mechanical parts' },
+      { id: 'ES-PETG-WHITE', brand: 'eSUN', name: 'Solid White (PETG)', material: 'PETG', hex: '#F0F2F4', note: 'Opaque white for handles & locks' },
+      { id: 'ES-PETG-GREY', brand: 'eSUN', name: 'Solid Grey (PETG)', material: 'PETG', hex: '#7C8086', note: 'Opaque grey for inner drawers' },
+      { id: 'ES-PETG-ORANGE', brand: 'eSUN', name: 'Solid Orange (PETG)', material: 'PETG', hex: '#F46216', note: 'Durable orange for springs & latches' },
+
+      // =======================================================================
+      // SUNLU (20 Colors) — PLA+, PLA Matte & PETG
+      // =======================================================================
+      { id: 'SL-PLAP-BLACK', brand: 'SUNLU', name: 'Black', material: 'PLA+', hex: '#1B1C1E', note: 'High-stiffness everyday black' },
+      { id: 'SL-PLAP-WHITE', brand: 'SUNLU', name: 'Pure White', material: 'PLA+', hex: '#F5F7F8', note: 'Bright clean white' },
+      { id: 'SL-PLAP-GREY', brand: 'SUNLU', name: 'Grey', material: 'PLA+', hex: '#888C91', note: 'Neutral medium grey' },
+      { id: 'SL-PLAP-SILVER', brand: 'SUNLU', name: 'Silver', material: 'PLA+', hex: '#A8ACB2', note: 'Smooth metallic-tone silver' },
+      { id: 'SL-PLAP-ORANGE', brand: 'SUNLU', name: 'Sunny Orange', material: 'PLA+', hex: '#FF6819', note: 'Vibrant safety orange' },
+      { id: 'SL-PLAP-RED', brand: 'SUNLU', name: 'Red', material: 'PLA+', hex: '#D62828', note: 'Bright primary tool red' },
+      { id: 'SL-PLAP-YELLOW', brand: 'SUNLU', name: 'Pure Yellow', material: 'PLA+', hex: '#F7D117', note: 'High-contrast lemon yellow' },
+      { id: 'SL-PLAP-GRASS', brand: 'SUNLU', name: 'Grass Green', material: 'PLA+', hex: '#4BA847', note: 'Classic systainer green' },
+      { id: 'SL-PLAP-KLEIN', brand: 'SUNLU', name: 'Klein Blue', material: 'PLA+', hex: '#0038A8', note: 'Ultra-saturated cobalt blue' },
+      { id: 'SL-PLAP-COFFEE', brand: 'SUNLU', name: 'Coffee Brown', material: 'PLA+', hex: '#614533', note: 'Warm roasted espresso brown' },
+      { id: 'SL-MAT-BLACK', brand: 'SUNLU', name: 'Matte Black', material: 'PLA Matte', hex: '#292A2D', note: 'Stealth matte charcoal' },
+      { id: 'SL-MAT-WHITE', brand: 'SUNLU', name: 'Matte White', material: 'PLA Matte', hex: '#F2F1ED', note: 'Soft matte plaster white' },
+      { id: 'SL-MAT-GREY', brand: 'SUNLU', name: 'Matte Ash Grey', material: 'PLA Matte', hex: '#82858A', note: 'Concrete matte mid-grey' },
+      { id: 'SL-MAT-OLIVE', brand: 'SUNLU', name: 'Matte Olive Green', material: 'PLA Matte', hex: '#5A6D3D', note: 'Botanical olive drab matte' },
+      { id: 'SL-MAT-TERRACOTTA', brand: 'SUNLU', name: 'Matte Terracotta', material: 'PLA Matte', hex: '#BD5D3A', note: 'Warm clay terracotta' },
+      { id: 'SL-MAT-BLUE', brand: 'SUNLU', name: 'Matte Cobalt Blue', material: 'PLA Matte', hex: '#2C5E8A', note: 'Muted steel marine blue' },
+      { id: 'SL-PETG-BLACK', brand: 'SUNLU', name: 'Black (PETG)', material: 'PETG', hex: '#1A1B1D', note: 'Tough black for slides & locks' },
+      { id: 'SL-PETG-WHITE', brand: 'SUNLU', name: 'White (PETG)', material: 'PETG', hex: '#F3F5F6', note: 'Strong white for handles' },
+      { id: 'SL-PETG-GREY', brand: 'SUNLU', name: 'Grey (PETG)', material: 'PETG', hex: '#7E8287', note: 'Utility grey for inner boxes' },
+      { id: 'SL-PETG-ORANGE', brand: 'SUNLU', name: 'Orange (PETG)', material: 'PETG', hex: '#FF6614', note: 'Snappy orange for leaf springs' },
+
+      // =======================================================================
+      // ELEGOO (20 Colors) — Rapid PLA+, PLA Matte & Rapid PETG
+      // =======================================================================
+      { id: 'EL-PLAP-BLACK', brand: 'ELEGOO', name: 'Black', material: 'Rapid PLA+', hex: '#1C1D20', note: 'High-speed rigid black' },
+      { id: 'EL-PLAP-WHITE', brand: 'ELEGOO', name: 'White', material: 'Rapid PLA+', hex: '#F4F6F7', note: 'High-speed clean white' },
+      { id: 'EL-PLAP-SPACE-GRY', brand: 'ELEGOO', name: 'Space Grey', material: 'Rapid PLA+', hex: '#5D5F63', note: 'Popular dark titanium grey' },
+      { id: 'EL-PLAP-LIGHT-GRY', brand: 'ELEGOO', name: 'Light Grey', material: 'Rapid PLA+', hex: '#B8BCC2', note: 'Clean industrial silver-grey' },
+      { id: 'EL-PLAP-ORANGE', brand: 'ELEGOO', name: 'Orange', material: 'Rapid PLA+', hex: '#FF671B', note: 'Bright mechanical accent orange' },
+      { id: 'EL-PLAP-RED', brand: 'ELEGOO', name: 'True Red', material: 'Rapid PLA+', hex: '#D12429', note: 'Bold workshop crimson' },
+      { id: 'EL-PLAP-YELLOW', brand: 'ELEGOO', name: 'Yellow', material: 'Rapid PLA+', hex: '#F5CE1B', note: 'High-visibility yellow' },
+      { id: 'EL-PLAP-SEA-GRN', brand: 'ELEGOO', name: 'Sea Green', material: 'Rapid PLA+', hex: '#009B7D', note: 'Vibrant turquoise-emerald' },
+      { id: 'EL-PLAP-BLUE', brand: 'ELEGOO', name: 'Dark Blue', material: 'Rapid PLA+', hex: '#14468C', note: 'Deep machinist cobalt blue' },
+      { id: 'EL-PLAP-BEIGE', brand: 'ELEGOO', name: 'Beige', material: 'Rapid PLA+', hex: '#DFCBB2', note: 'Warm sand / vintage computer beige' },
+      { id: 'EL-MAT-BLACK', brand: 'ELEGOO', name: 'Matte Black', material: 'PLA Matte', hex: '#2B2C2F', note: 'Smooth stealth matte black' },
+      { id: 'EL-MAT-WHITE', brand: 'ELEGOO', name: 'Matte White', material: 'PLA Matte', hex: '#F2F0EC', note: 'Architectural matte white' },
+      { id: 'EL-MAT-SLATE', brand: 'ELEGOO', name: 'Matte Slate Grey', material: 'PLA Matte', hex: '#787C82', note: 'Medium concrete slate grey' },
+      { id: 'EL-MAT-OLIVE', brand: 'ELEGOO', name: 'Matte Olive Green', material: 'PLA Matte', hex: '#5E6B47', note: 'Earthy tactical olive green' },
+      { id: 'EL-MAT-NAVY', brand: 'ELEGOO', name: 'Matte Navy Blue', material: 'PLA Matte', hex: '#1D3557', note: 'Deep midnight navy matte' },
+      { id: 'EL-MAT-TEAL', brand: 'ELEGOO', name: 'Matte Teal Green', material: 'PLA Matte', hex: '#458B88', note: 'Muted studio slate teal' },
+      { id: 'EL-PETG-BLACK', brand: 'ELEGOO', name: 'Black (Rapid PETG)', material: 'Rapid PETG', hex: '#1A1B1E', note: 'High-speed tough mechanical black' },
+      { id: 'EL-PETG-WHITE', brand: 'ELEGOO', name: 'White (Rapid PETG)', material: 'Rapid PETG', hex: '#F2F4F6', note: 'High-speed white for handles' },
+      { id: 'EL-PETG-SPACE-GRY', brand: 'ELEGOO', name: 'Space Grey (Rapid PETG)', material: 'Rapid PETG', hex: '#585B60', note: 'Tough Space Grey for inner trays' },
+      { id: 'EL-PETG-ORANGE', brand: 'ELEGOO', name: 'Orange (Rapid PETG)', material: 'Rapid PETG', hex: '#FF6517', note: 'Resilient orange for springs & latches' },
+
+      // =======================================================================
+      // OVERTURE (20 Colors) — PLA+, Matte PLA & PETG
+      // =======================================================================
+      { id: 'OV-PLA-BLACK', brand: 'Overture', name: 'Black', material: 'PLA+', hex: '#1E1F22', note: 'Tough structural black' },
+      { id: 'OV-PLA-WHITE', brand: 'Overture', name: 'White', material: 'PLA+', hex: '#F5F6F7', note: 'Clean bright white' },
+      { id: 'OV-PLA-SPACE-GRY', brand: 'Overture', name: 'Space Gray', material: 'PLA+', hex: '#6C7076', note: 'Classic metallic-tone mid-grey' },
+      { id: 'OV-PLA-LIGHT-GRY', brand: 'Overture', name: 'Light Gray', material: 'PLA+', hex: '#BFC3C8', note: 'Light neutral housing grey' },
+      { id: 'OV-PLA-ORANGE', brand: 'Overture', name: 'Orange', material: 'PLA+', hex: '#FF6918', note: 'Bright hardware orange' },
+      { id: 'OV-PLA-RED', brand: 'Overture', name: 'Red', material: 'PLA+', hex: '#CE242B', note: 'Rich workshop red' },
+      { id: 'OV-PLA-DIGITAL-BLU', brand: 'Overture', name: 'Digital Blue', material: 'PLA+', hex: '#005CB9', note: 'Vibrant cobalt blue' },
+      { id: 'OV-PLA-ROYAL-GRN', brand: 'Overture', name: 'Jungle Green', material: 'PLA+', hex: '#287A3E', note: 'Deep forest green' },
+      { id: 'OV-PLA-CHOCOLATE', brand: 'Overture', name: 'Chocolate', material: 'PLA+', hex: '#5C3E2B', note: 'Warm walnut brown' },
+      { id: 'OV-MAT-BLACK', brand: 'Overture', name: 'Matte Black', material: 'PLA Matte', hex: '#302E2E', note: 'Measured #302E2E — hides layer lines' },
+      { id: 'OV-MAT-WHITE', brand: 'Overture', name: 'Matte White', material: 'PLA Matte', hex: '#F1EFEA', note: 'Soft chalk matte white' },
+      { id: 'OV-MAT-LIGHT-GRY', brand: 'Overture', name: 'Matte Light Gray', material: 'PLA Matte', hex: '#A5A8AD', note: 'Smooth architectural light grey' },
+      { id: 'OV-MAT-ARMY-GRN', brand: 'Overture', name: 'Matte Army Green', material: 'PLA Matte', hex: '#4B5335', note: 'Deep tactical olive drab' },
+      { id: 'OV-MAT-GRASS-GRN', brand: 'Overture', name: 'Matte Grass Green', material: 'PLA Matte', hex: '#5EAE73', note: 'Measured #5EAE73 — fresh botanical green' },
+      { id: 'OV-MAT-BLUE', brand: 'Overture', name: 'Matte Blue', material: 'PLA Matte', hex: '#277EAB', note: 'Measured #277EAB — muted ocean blue' },
+      { id: 'OV-MAT-YELLOW', brand: 'Overture', name: 'Matte Yellow', material: 'PLA Matte', hex: '#F5D364', note: 'Measured #F5D364 — warm studio amber' },
+      { id: 'OV-PETG-BLACK', brand: 'Overture', name: 'Black (PETG)', material: 'PETG', hex: '#1A1B1E', note: 'Heavy-duty black for slides & locks' },
+      { id: 'OV-PETG-ROCK-WHT', brand: 'Overture', name: 'Rock White (PETG)', material: 'PETG', hex: '#D8DCDF', note: 'Light stone grey-white PETG' },
+      { id: 'OV-PETG-SPACE-GRY', brand: 'Overture', name: 'Space Gray (PETG)', material: 'PETG', hex: '#686C72', note: 'Tough Space Gray for inner boxes' },
+      { id: 'OV-PETG-ARMY-GRN', brand: 'Overture', name: 'Army Green (PETG)', material: 'PETG', hex: '#404720', note: 'Measured #404720 — rugged tactical PETG' }
     ];
+
+    // Normalize brand and material group across all catalog entries
+    BAMBU_FILAMENTS.forEach(f => {
+      if (!f.brand) f.brand = 'Bambu Lab';
+      if (!f.matGroup) {
+        if (f.material.includes('PETG')) f.matGroup = 'PETG';
+        else if (f.material.includes('Matte')) f.matGroup = 'PLA Matte';
+        else f.matGroup = 'PLA Basic';
+      }
+    });
 
     const PRESET_PROSPECTS = [
       {
@@ -1225,13 +1457,55 @@
         primary: '10602',
         secondary: '10101',
         accent: '10604'
+      },
+      {
+        id: 'prusa-signature',
+        category: 'brands',
+        name: '15. Prusa Signature Edition',
+        tag: '🏷️ Prusament PLA + PETG',
+        desc: 'Prusament Galaxy Black shells, Anthracite Grey inner trays, and Prusa Orange PETG springs & latches.',
+        primary: 'PR-PLA-GALAXY-BLK',
+        secondary: 'PR-PLA-ANTHRACITE',
+        accent: 'PR-PETG-ORANGE'
+      },
+      {
+        id: 'polymaker-earth',
+        category: 'brands',
+        name: '16. PolyTerra Earth Studio',
+        tag: '🏷️ Polymaker PolyTerra',
+        desc: 'Polymaker Fossil Grey matte shells with Charcoal Black hardware and Muted Terracotta accents.',
+        primary: 'PM-PT-FOSSIL',
+        secondary: 'PM-PL-BLACK',
+        accent: 'PM-PT-TERRACOTTA'
+      },
+      {
+        id: 'esun-tactical',
+        category: 'brands',
+        name: '17. eSUN Tactical & Peak',
+        tag: '🏷️ eSUN PLA+ & PETG',
+        desc: 'eSUN PLA+ Olive Green exterior paired with Solid Black PETG slides and Peak Green accents.',
+        primary: 'ES-PLAP-OLIVE',
+        secondary: 'ES-PETG-BLACK',
+        accent: 'ES-PLAP-PEAK-GRN'
+      },
+      {
+        id: 'elegoo-overture-shop',
+        category: 'brands',
+        name: '18. Space Grey & Fire Red',
+        tag: '🏷️ ELEGOO + eSUN',
+        desc: 'ELEGOO Rapid PLA+ Space Grey shells, Light Grey inner bolt trays, and eSUN Fire Engine Red accents.',
+        primary: 'EL-PLAP-SPACE-GRY',
+        secondary: 'EL-PLAP-LIGHT-GRY',
+        accent: 'ES-PLAP-FIRE-RED'
       }
     ];
 
     // State
     let currentState = {
       activeZone: 'primary',
+      brandFilter: 'Bambu Lab',
       materialFilter: 'ALL',
+      searchQuery: '',
       presetCategory: 'ALL',
       primary: '10104',
       secondary: '10105',
@@ -1245,7 +1519,7 @@
         { name: 'Official USSA Promo', primary: '10104', secondary: '10105', accent: '10300' },
         { name: 'Warm Studio WFH', primary: '11103', secondary: '11101', accent: '11203' },
         { name: 'Stealth + Bright Trays', primary: '11101', secondary: '10104', accent: '10300' },
-        { name: 'Botanical & Brass', primary: '11100', secondary: '11501', accent: '10401' }
+        { name: 'Prusa Signature Edition', primary: 'PR-PLA-GALAXY-BLK', secondary: 'PR-PLA-ANTHRACITE', accent: 'PR-PETG-ORANGE' }
       ]
     };
 
@@ -1262,6 +1536,10 @@
       return BAMBU_FILAMENTS.find(f => f.id === id) || BAMBU_FILAMENTS[0];
     }
 
+    function formatFilamentSpec(fil) {
+      return `${fil.brand} ${fil.material} · ${fil.name} (${fil.id})`;
+    }
+
     function hexToRgb(hex) {
       const clean = hex.replace('#', '');
       const num = parseInt(clean, 16);
@@ -1276,6 +1554,17 @@
       span.dataset.origText = orig;
       span.textContent = tempText;
       setTimeout(() => { span.textContent = orig; }, 2000);
+    }
+
+    function syncBrandTabWithActiveZone() {
+      if (currentState.brandFilter === 'ALL') return;
+      const activeFil = getFilament(currentState[currentState.activeZone]);
+      if (activeFil && activeFil.brand !== currentState.brandFilter) {
+        currentState.brandFilter = activeFil.brand;
+        document.querySelectorAll('#brandTabs .brand-pill').forEach(b => {
+          b.classList.toggle('active', b.dataset.brand === currentState.brandFilter);
+        });
+      }
     }
 
     function loadStateFromUrl() {
@@ -1296,6 +1585,7 @@
           pr => pr.primary === currentState.primary && pr.secondary === currentState.secondary && pr.accent === currentState.accent
         );
         currentState.activePresetId = matchPreset ? matchPreset.id : null;
+        syncBrandTabWithActiveZone();
       } catch (_) {}
     }
 
@@ -1365,12 +1655,12 @@
         ctx.fillText(z.label, x + 54, y + 15);
 
         ctx.fillStyle = '#f3f4f6';
-        ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.fillText(`Bambu ${z.fil.material} · ${z.fil.name} (${z.fil.id})`, x + 54, y + 36);
+        ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText(formatFilamentSpec(z.fil), x + 54, y + 36);
       });
 
       const link = document.createElement('a');
-      link.download = `vault-bambu-${p.id}-${s.id}-${a.id}.png`;
+      link.download = `vault-colors-${p.id}-${s.id}-${a.id}.png`;
       link.href = outCanvas.toDataURL('image/png');
       link.click();
 
@@ -1402,11 +1692,11 @@
       const spoolsAcc = accGrams === 0 ? 0 : Math.max(1, Math.ceil(accGrams / 950));
 
       const lines = [
-        `VAULT × Bambu Lab Filament Shopping List`,
-        `----------------------------------------`,
-        `• Primary (Shells/Roofs/Facades): ${spoolsPri}x 1kg Spool — Bambu ${p.material} ${p.name} (SKU: ${p.id}) [~${priGrams}g]`,
-        `• Secondary (Inner Boxes/Locks/Handles): ${spoolsSec}x 1kg Spool — Bambu ${s.material} ${s.name} (SKU: ${s.id}) [~${secGrams}g]`,
-        `• Accent (Springs/Latches/Bins): ${spoolsAcc}x 1kg Spool — Bambu ${a.material} ${a.name} (SKU: ${a.id}) [~${accGrams}g]`,
+        `VAULT — Filament Shopping List`,
+        `------------------------------`,
+        `• Primary (Shells/Roofs/Facades): ${spoolsPri}x 1kg Spool — ${p.brand} ${p.material} ${p.name} (SKU: ${p.id}) [~${priGrams}g]`,
+        `• Secondary (Inner Boxes/Locks/Handles): ${spoolsSec}x 1kg Spool — ${s.brand} ${s.material} ${s.name} (SKU: ${s.id}) [~${secGrams}g]`,
+        `• Accent (Springs/Latches/Bins): ${spoolsAcc}x 1kg Spool — ${a.brand} ${a.material} ${a.name} (SKU: ${a.id}) [~${accGrams}g]`,
         ``,
         `Planned Modules: ${qSmall}x Small (S3/S4) + ${qLarge}x Large (M5/L5) + ${qBins}x Bin Sets`,
         `Interactive Preview: ${window.location.href}`
@@ -1440,6 +1730,7 @@
         card.addEventListener('click', () => {
           currentState.activeZone = card.dataset.zone;
           document.querySelectorAll('.zone-card').forEach(c => c.classList.toggle('active', c === card));
+          syncBrandTabWithActiveZone();
           renderSwatches();
         });
       });
@@ -1451,6 +1742,22 @@
           document.querySelectorAll('#presetTabs .filter-tab').forEach(t => t.classList.toggle('active', t === tab));
           renderPresets();
         });
+      });
+
+      // Brand filter pills
+      document.querySelectorAll('#brandTabs .brand-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          currentState.brandFilter = pill.dataset.brand;
+          document.querySelectorAll('#brandTabs .brand-pill').forEach(b => b.classList.toggle('active', b === pill));
+          renderSwatches();
+        });
+      });
+
+      // Swatch search input
+      const searchInput = document.getElementById('swatchSearch');
+      searchInput.addEventListener('input', (e) => {
+        currentState.searchQuery = (e.target.value || '').trim().toLowerCase();
+        renderSwatches();
       });
 
       // Material filter tabs
@@ -1557,6 +1864,7 @@
       currentState.secondary = preset.secondary;
       currentState.accent = preset.accent;
       currentState.activePresetId = preset.id;
+      syncBrandTabWithActiveZone();
       trackEvent('select_preset', {
         preset_id: preset.id,
         primary_sku: preset.primary,
@@ -1589,9 +1897,9 @@
         return `
           <button class="preset-card ${isActive ? 'active' : ''}" data-preset="${preset.id}">
             <div class="preset-swatches">
-              <span style="width:62%; background:${p.hex}" title="Primary: ${p.name}"></span>
-              <span style="width:28%; background:${s.hex}" title="Secondary: ${s.name}"></span>
-              <span style="width:10%; background:${a.hex}" title="Accent: ${a.name}"></span>
+              <span style="width:62%; background:${p.hex}" title="Primary: ${p.brand} ${p.name}"></span>
+              <span style="width:28%; background:${s.hex}" title="Secondary: ${s.brand} ${s.name}"></span>
+              <span style="width:10%; background:${a.hex}" title="Accent: ${a.brand} ${a.name}"></span>
             </div>
             <span class="preset-tag">${preset.tag}</span>
             <h4 class="preset-name">${preset.name}</h4>
@@ -1613,35 +1921,73 @@
         const fil = getFilament(currentState[zone]);
         document.getElementById(`dot-${zone}`).style.background = fil.hex;
         document.getElementById(`name-${zone}`).textContent = fil.name;
-        document.getElementById(`code-${zone}`).textContent = `${fil.material} · ${fil.id}`;
+        document.getElementById(`code-${zone}`).textContent = `${fil.brand} · ${fil.material} · ${fil.id}`;
 
         document.getElementById(`rec-swatch-${zone}`).style.background = fil.hex;
-        document.getElementById(`rec-text-${zone}`).textContent = `Bambu ${fil.material} · ${fil.name} (${fil.id})`;
+        document.getElementById(`rec-text-${zone}`).textContent = formatFilamentSpec(fil);
       });
 
-      // Check if Accent or Secondary uses PLA Matte
+      // Check if Accent or Secondary uses Matte PLA
       const secFil = getFilament(currentState.secondary);
       const accFil = getFilament(currentState.accent);
       const warnEl = document.getElementById('matteWarning');
-      warnEl.style.display = (accFil.material === 'PLA Matte' || secFil.material === 'PLA Matte') ? 'block' : 'none';
+      warnEl.style.display = (accFil.matGroup === 'PLA Matte' || secFil.matGroup === 'PLA Matte') ? 'block' : 'none';
     }
 
     function renderSwatches() {
       const grid = document.getElementById('swatchesGrid');
       const activeFilId = currentState[currentState.activeZone];
-      const filtered = BAMBU_FILAMENTS.filter(f =>
-        currentState.materialFilter === 'ALL' || f.material === currentState.materialFilter
+      const q = currentState.searchQuery;
+
+      const brandMatches = BAMBU_FILAMENTS.filter(f => {
+        const matchBrand = currentState.brandFilter === 'ALL' || f.brand === currentState.brandFilter;
+        if (!matchBrand) return false;
+        if (!q) return true;
+        return (
+          f.name.toLowerCase().includes(q) ||
+          f.id.toLowerCase().includes(q) ||
+          f.hex.toLowerCase().includes(q) ||
+          f.brand.toLowerCase().includes(q) ||
+          f.material.toLowerCase().includes(q) ||
+          f.note.toLowerCase().includes(q)
+        );
+      });
+
+      // Update material tab counts dynamically for the current brand/search filter
+      const countAll = brandMatches.length;
+      const countBasic = brandMatches.filter(f => f.matGroup === 'PLA Basic').length;
+      const countMatte = brandMatches.filter(f => f.matGroup === 'PLA Matte').length;
+      const countPetg = brandMatches.filter(f => f.matGroup === 'PETG').length;
+
+      const matLabels = {
+        'ALL': `All (${countAll})`,
+        'PLA Basic': `PLA / PLA+ (${countBasic})`,
+        'PLA Matte': `PLA Matte (${countMatte})`,
+        'PETG': `PETG (${countPetg})`
+      };
+      document.querySelectorAll('#materialTabs .filter-tab').forEach(t => {
+        const key = t.dataset.mat;
+        if (matLabels[key]) t.textContent = matLabels[key];
+      });
+
+      const filtered = brandMatches.filter(f =>
+        currentState.materialFilter === 'ALL' || f.matGroup === currentState.materialFilter
       );
 
-      grid.innerHTML = filtered.map(f => `
-        <button class="swatch-btn ${f.id === activeFilId ? 'selected' : ''}" data-fid="${f.id}" title="${f.name} (${f.material} ${f.id}) — ${f.note}">
-          <span class="swatch-chip" style="background:${f.hex}"></span>
-          <span class="swatch-meta">
-            <span class="swatch-label">${f.name}</span>
-            <span class="swatch-sku">${f.material.replace('PLA ', '')} · ${f.id}</span>
-          </span>
-        </button>
-      `).join('');
+      grid.innerHTML = filtered.map(f => {
+        const shortTag = currentState.brandFilter === 'ALL'
+          ? `${f.brand} · ${f.material}`
+          : `${f.material} · ${f.id}`;
+        return `
+          <button class="swatch-btn ${f.id === activeFilId ? 'selected' : ''}" data-fid="${f.id}" title="${f.brand} ${f.name} (${f.material} · ${f.id} · ${f.hex}) — ${f.note}">
+            <span class="swatch-chip" style="background:${f.hex}"></span>
+            <span class="swatch-meta">
+              <span class="swatch-label">${f.name}</span>
+              <span class="swatch-sku">${shortTag}</span>
+            </span>
+          </button>
+        `;
+      }).join('');
 
       grid.querySelectorAll('.swatch-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1980,9 +2326,9 @@
             </div>
             <div style="font-size:13px; font-weight:700;">${combo.name}</div>
             <div style="font-size:11.5px; color:var(--text-muted); line-height:1.45;">
-              <div><strong>Pri:</strong> ${p.name} (<code>${p.id}</code>)</div>
-              <div><strong>Sec:</strong> ${s.name} (<code>${s.id}</code>)</div>
-              <div><strong>Acc:</strong> ${a.name} (<code>${a.id}</code>)</div>
+              <div><strong>Pri:</strong> ${p.brand} ${p.name} (<code>${p.id}</code>)</div>
+              <div><strong>Sec:</strong> ${s.brand} ${s.name} (<code>${s.id}</code>)</div>
+              <div><strong>Acc:</strong> ${a.brand} ${a.name} (<code>${a.id}</code>)</div>
             </div>
             <div style="display:flex; gap:6px; margin-top:auto;">
               <button class="btn" data-load-idx="${idx}" style="flex:1; justify-content:center; padding:6px; font-size:12px;">
@@ -2004,6 +2350,7 @@
             currentState.secondary = c.secondary;
             currentState.accent = c.accent;
             currentState.activePresetId = null;
+            syncBrandTabWithActiveZone();
             refreshAll();
           }
         });
@@ -2040,7 +2387,7 @@
           <div style="display:flex; align-items:center; gap:10px;">
             <span class="swatch-chip" style="background:${p.hex}"></span>
             <div>
-              <strong>Primary: ${p.name}</strong> (<code>${p.material} ${p.id}</code>)
+              <strong>Primary: ${p.brand} ${p.name}</strong> (<code>${p.material} · ${p.id}</code>)
               <div style="font-size:11px; color:var(--text-muted);">Est. ${priGrams}g for shells, roofs &amp; facades</div>
             </div>
           </div>
@@ -2051,7 +2398,7 @@
           <div style="display:flex; align-items:center; gap:10px;">
             <span class="swatch-chip" style="background:${s.hex}"></span>
             <div>
-              <strong>Secondary: ${s.name}</strong> (<code>${s.material} ${s.id}</code>)
+              <strong>Secondary: ${s.brand} ${s.name}</strong> (<code>${s.material} · ${s.id}</code>)
               <div style="font-size:11px; color:var(--text-muted);">Est. ${secGrams}g for inner drawer boxes, handles &amp; locks</div>
             </div>
           </div>
@@ -2062,7 +2409,7 @@
           <div style="display:flex; align-items:center; gap:10px;">
             <span class="swatch-chip" style="background:${a.hex}"></span>
             <div>
-              <strong>Accent: ${a.name}</strong> (<code>${a.material} ${a.id}</code>)
+              <strong>Accent: ${a.brand} ${a.name}</strong> (<code>${a.material} · ${a.id}</code>)
               <div style="font-size:11px; color:var(--text-muted);">Est. ${accGrams}g for springs, latches, stoppers &amp; ${qBins} bin sets</div>
             </div>
           </div>
